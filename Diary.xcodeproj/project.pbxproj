@@ -12,7 +12,28 @@
 		31CAC5C41FC31A5400EC7910 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C21FC31A5400EC7910 /* Main.storyboard */; };
 		31CAC5C61FC31A5400EC7910 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C51FC31A5400EC7910 /* Assets.xcassets */; };
 		31CAC5C91FC31A5400EC7910 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */; };
+		31CAC5D21FC31C0B00EC7910 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31CAC5D01FC31C0B00EC7910 /* Realm.framework */; };
+		31CAC5D31FC31C0B00EC7910 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31CAC5D01FC31C0B00EC7910 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		31CAC5D41FC31C0B00EC7910 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */; };
+		31CAC5D51FC31C0B00EC7910 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5D81FC5C20000EC7910 /* Entry.swift */; };
+		31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31CAC5D61FC31C0B00EC7910 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31CAC5D51FC31C0B00EC7910 /* RealmSwift.framework in Embed Frameworks */,
+				31CAC5D31FC31C0B00EC7910 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		31CAC5BB1FC31A5400EC7910 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +43,10 @@
 		31CAC5C51FC31A5400EC7910 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31CAC5C81FC31A5400EC7910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31CAC5CA1FC31A5400EC7910 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31CAC5D01FC31C0B00EC7910 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		31CAC5D81FC5C20000EC7910 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31CAC5D41FC31C0B00EC7910 /* RealmSwift.framework in Frameworks */,
+				31CAC5D21FC31C0B00EC7910 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +65,8 @@
 		31CAC5B21FC31A5300EC7910 = {
 			isa = PBXGroup;
 			children = (
+				31CAC5D01FC31C0B00EC7910 /* Realm.framework */,
+				31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */,
 				31CAC5BD1FC31A5400EC7910 /* Diary */,
 				31CAC5BC1FC31A5400EC7910 /* Products */,
 			);
@@ -60,6 +89,8 @@
 				31CAC5C51FC31A5400EC7910 /* Assets.xcassets */,
 				31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */,
 				31CAC5CA1FC31A5400EC7910 /* Info.plist */,
+				31CAC5D81FC5C20000EC7910 /* Entry.swift */,
+				31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -74,6 +105,8 @@
 				31CAC5B71FC31A5400EC7910 /* Sources */,
 				31CAC5B81FC31A5400EC7910 /* Frameworks */,
 				31CAC5B91FC31A5400EC7910 /* Resources */,
+				31CAC5D61FC31C0B00EC7910 /* Embed Frameworks */,
+				31CAC5D71FC31CB800EC7910 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -131,11 +164,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		31CAC5D71FC31CB800EC7910 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		31CAC5B71FC31A5400EC7910 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
+				31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */,
 				31CAC5C11FC31A5400EC7910 /* ViewController.swift in Sources */,
 				31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */,
 			);
@@ -217,6 +268,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -266,6 +318,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -276,7 +329,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8EEF732K9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Diary/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kj.okzk.Diary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -291,7 +349,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8EEF732K9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Diary/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kj.okzk.Diary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
