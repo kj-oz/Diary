@@ -30,6 +30,13 @@ class Entry {
       }
     }
   }
+  
+  init(paddingDate: String) {
+    self.date = paddingDate
+    wn = 0
+    wd = 0
+    padding = true
+  }
 }
 
 class DBEntry: Object {
