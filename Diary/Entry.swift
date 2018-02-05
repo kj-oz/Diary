@@ -18,8 +18,8 @@ class Entry {
   
   init(date: Date, weekNumber: Int = 0) {
     let cal = Calendar.current
-    self.date = DiaryManager.dateFormatter.string(from: date)
     wd = Int8(cal.component(.weekday, from: date))
+    var dateStr = DiaryManager.dateFormatter.string(from: date)
     let apiWeek = DiaryManager.weekNumber(of: date)
     if weekNumber == 0 {
       wn = Int8(apiWeek)
@@ -27,8 +27,11 @@ class Entry {
       wn = Int8(weekNumber)
       if weekNumber != apiWeek {
         padding = true
+        let year = cal.component(.year, from: date)
+        dateStr = String(weekNumber == 1 ? year + 1 : year - 1)
       }
     }
+    self.date = dateStr
   }
   
   init(paddingDate: String) {
@@ -49,7 +52,7 @@ class DBEntry: Object {
   @objc dynamic var modified = Date()
   
   override static func primaryKey() -> String? {
-    return "id"
+    return "date"
   }
 }
 

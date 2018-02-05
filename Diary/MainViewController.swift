@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class MainViewController: UIViewController {
 
@@ -35,13 +34,22 @@ class MainViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     searchBar.delegate = self
+    let tapGR = UITapGestureRecognizer(target: self, action: #selector(searchLabelTapped(_:)))
+    tapGR.numberOfTapsRequired = 2
+    searchLabel.addGestureRecognizer(tapGR)
     
     dm = DiaryManager()
-    dm.changeFilter(dm.filter) {
-      self.entries = self.dm.entries
-      self.tableView.reloadData()
-    }
-    // dm.test()
+    //dm.insertData()
+    
+    dm.delegate = self
+    
+    let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19980701"
+    dm.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
+    dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
+    
+    let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
+    dm.filter = DiaryFilter(rawValue: filterString)!
+
     update()
   }
 
@@ -54,11 +62,7 @@ class MainViewController: UIViewController {
     let alert = UIAlertController(title:"百年日記", message: "表示方法を選択してください", preferredStyle: UIAlertControllerStyle.actionSheet)
     for filter in DiaryFilter.allCases {
       let action = UIAlertAction(title: filter.rawValue, style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-        self.dm.changeFilter(filter) {
-          print("Enter completionHandler")
-          self.entries = self.dm.entries
-          self.tableView.reloadData()
-        }
+        self.dm.filter = filter
         self.update()
       })
       alert.addAction(action)
@@ -82,6 +86,11 @@ class MainViewController: UIViewController {
     update()
   }
   
+  @objc func searchLabelTapped(_ sender: Any) {
+    dm.resetDate()
+    update()
+  }
+  
   private func update() {
     conditionButton.setTitle(dm.filter.rawValue, for: .normal)
     conditionButton.setTitle(dm.filter.rawValue, for: .highlighted)
@@ -89,9 +98,6 @@ class MainViewController: UIViewController {
       searchLabel.text = dm.filterValueString
       searchBar.isHidden = true
       dateView.isHidden = false
-//      entries = []
-//      tableView.reloadData()
-//      print("▶ table reloadData done")
     } else {
       searchBar.text = ""
       searchBar.isHidden = false
@@ -112,25 +118,7 @@ extension MainViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell") as! EntryCell
-    let entry = entries[indexPath.row]
-    let date = DiaryManager.dateFormatter.date(from: entry.date)!
-    let cal = Calendar.current
-
-    cell.year.text = "\(entry.date.prefix(4))"
-    cell.date.text = "\(cal.component(.month, from: date))/\(cal.component(.day, from: date))"
-    cell.weekday.text = DiaryManager.weekday(of: date)
-    cell.photo.image = nil
-    if let db = entry.db {
-      cell.entryText.text = db.text
-      let photos = db.photos.split(separator: ",")
-      if photos.count > 0 {
-        let docDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, false)
-        let photoPath = docDir[0].appendingFormat("/%@/%@.jpg", entry.date, String(photos[0]))
-        cell.photo.image = UIImage(contentsOfFile: photoPath)
-      }
-    } else {
-      cell.entryText.text = ""
-    }
+    cell.render(entry: entries[indexPath.row])
     return cell
   }
 }
@@ -143,7 +131,21 @@ extension MainViewController: UITableViewDelegate {
 }
 
 extension MainViewController: UISearchBarDelegate {
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    if let searchText = searchBar.text {
+      dm.searchString = searchText
+      dm.filter = .検索
+    }
+  }
+}
+
+extension MainViewController: DiaryManagerDelegate {
+  func entriesBeginLoading() {
+  }
   
-  
+  func entriesEndLoading(entries: [Entry]) {
+    self.entries = entries
+    tableView.reloadData()
+  }
 }
 

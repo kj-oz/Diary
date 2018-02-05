@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310C4BA41FE958C600A13D70 /* EntryCell.swift */; };
+		31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31473C002012285E0089B23C /* DiaryManagerTest.swift */; };
 		31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */; };
-		31CAC5C11FC31A5400EC7910 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5C01FC31A5400EC7910 /* ViewController.swift */; };
+		31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5C01FC31A5400EC7910 /* MainViewController.swift */; };
 		31CAC5C41FC31A5400EC7910 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C21FC31A5400EC7910 /* Main.storyboard */; };
 		31CAC5C61FC31A5400EC7910 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C51FC31A5400EC7910 /* Assets.xcassets */; };
 		31CAC5C91FC31A5400EC7910 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */; };
@@ -36,9 +38,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		310C4BA41FE958C600A13D70 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
+		31473C002012285E0089B23C /* DiaryManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManagerTest.swift; sourceTree = "<group>"; };
 		31CAC5BB1FC31A5400EC7910 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		31CAC5C01FC31A5400EC7910 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		31CAC5C01FC31A5400EC7910 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		31CAC5C31FC31A5400EC7910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		31CAC5C51FC31A5400EC7910 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31CAC5C81FC31A5400EC7910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -84,13 +88,15 @@
 			isa = PBXGroup;
 			children = (
 				31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */,
-				31CAC5C01FC31A5400EC7910 /* ViewController.swift */,
+				31CAC5C01FC31A5400EC7910 /* MainViewController.swift */,
 				31CAC5C21FC31A5400EC7910 /* Main.storyboard */,
 				31CAC5C51FC31A5400EC7910 /* Assets.xcassets */,
 				31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */,
 				31CAC5CA1FC31A5400EC7910 /* Info.plist */,
 				31CAC5D81FC5C20000EC7910 /* Entry.swift */,
 				31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */,
+				310C4BA41FE958C600A13D70 /* EntryCell.swift */,
+				31473C002012285E0089B23C /* DiaryManagerTest.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -186,8 +192,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
+				310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */,
 				31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */,
-				31CAC5C11FC31A5400EC7910 /* ViewController.swift in Sources */,
+				31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */,
+				31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */,
 				31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
