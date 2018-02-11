@@ -39,16 +39,16 @@ class MainViewController: UIViewController {
     searchLabel.addGestureRecognizer(tapGR)
     
     dm = DiaryManager()
-    //dm.insertData()
+    // dm.insertData()
     
     dm.delegate = self
     
     let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19980701"
-    dm.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
+    dm.filter.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
     dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
     
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
-    dm.filter = DiaryFilter(rawValue: filterString)!
+    dm.filterType = FilterType(rawValue: filterString)!
 
     update()
   }
@@ -60,9 +60,9 @@ class MainViewController: UIViewController {
 
   @IBAction func conditionButtonTapped(_ sender: Any) {
     let alert = UIAlertController(title:"百年日記", message: "表示方法を選択してください", preferredStyle: UIAlertControllerStyle.actionSheet)
-    for filter in DiaryFilter.allCases {
+    for filter in FilterType.selectables {
       let action = UIAlertAction(title: filter.rawValue, style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
-        self.dm.filter = filter
+        self.dm.filterType = filter
         self.update()
       })
       alert.addAction(action)
@@ -92,10 +92,10 @@ class MainViewController: UIViewController {
   }
   
   private func update() {
-    conditionButton.setTitle(dm.filter.rawValue, for: .normal)
-    conditionButton.setTitle(dm.filter.rawValue, for: .highlighted)
-    if dm.filter != .検索 {
-      searchLabel.text = dm.filterValueString
+    conditionButton.setTitle(dm.filterType.rawValue, for: .normal)
+    conditionButton.setTitle(dm.filterType.rawValue, for: .highlighted)
+    if dm.filterType != .検索 {
+      searchLabel.text = dm.filter.valueString
       searchBar.isHidden = true
       dateView.isHidden = false
     } else {
@@ -134,7 +134,7 @@ extension MainViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if let searchText = searchBar.text {
       dm.searchString = searchText
-      dm.filter = .検索
+      dm.filterType = .検索
     }
   }
 }

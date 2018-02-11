@@ -20,6 +20,7 @@
 		31CAC5D51FC31C0B00EC7910 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5D81FC5C20000EC7910 /* Entry.swift */; };
 		31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */; };
+		31FB5879202C89FB007ED042 /* DiaryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB5878202C89FB007ED042 /* DiaryFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,7 @@
 		31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		31CAC5D81FC5C20000EC7910 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
+		31FB5878202C89FB007ED042 /* DiaryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				31CAC5CA1FC31A5400EC7910 /* Info.plist */,
 				31CAC5D81FC5C20000EC7910 /* Entry.swift */,
 				31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */,
+				31FB5878202C89FB007ED042 /* DiaryFilter.swift */,
 				310C4BA41FE958C600A13D70 /* EntryCell.swift */,
 				31473C002012285E0089B23C /* DiaryManagerTest.swift */,
 			);
@@ -193,6 +196,7 @@
 			files = (
 				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
 				310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */,
+				31FB5879202C89FB007ED042 /* DiaryFilter.swift in Sources */,
 				31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */,
 				31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */,
 				31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */,

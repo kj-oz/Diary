@@ -34,7 +34,7 @@ extension DiaryManager {
       let days = arc4random_uniform(7) + 1
       date = date.addingTimeInterval(Double(days) * 24 * 60 * 60)
       
-      let entry = DBEntry()
+      let entry = Record()
       entry.date = DiaryManager.dateFormatter.string(from: date)
       entry.wd = Int8(cal.component(.weekday, from: date))
       let apiWeek = DiaryManager.weekNumber(of: date)
@@ -66,126 +66,126 @@ extension DiaryManager {
   func test() {
     let cal = Calendar.current
     var comp = DateComponents()
-    earliestDate = cal.date(byAdding: .year, value: -18, to: Date())!
+    filter.earliestDate = cal.date(byAdding: .year, value: -18, to: Date())!
     var entries: [Entry] = []
     
     comp.year = 2020
     comp.month = 2
     comp.day = 28
-    firstDate = cal.date(from: comp)!
-    filter = .月日
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .月日, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
 
     comp.year = 2020
     comp.month = 2
     comp.day = 29
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .月日, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
 
     comp.year = 2020
     comp.month = 1
     comp.day = 31
-    firstDate = cal.date(from: comp)!
-    filter = .日
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .日, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
 
-    earliestDate = cal.date(byAdding: .year, value: -1, to: Date())!
+    filter.earliestDate = cal.date(byAdding: .year, value: -1, to: Date())!
     comp.year = 2018
     comp.month = 1
     comp.day = 1
-    firstDate = cal.date(from: comp)!
-    filter = .曜日
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .曜日, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
 
     comp.year = 2018
     comp.month = 1
     comp.day = 1
-    firstDate = cal.date(from: comp)!
-    filter = .なし
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .なし, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
-    earliestDate = Date(timeIntervalSinceReferenceDate: 0)
+    filter.earliestDate = Date(timeIntervalSinceReferenceDate: 0)
     comp.year = 2017
     comp.month = 12
     comp.day = 2
-    firstDate = cal.date(from: comp)!
-    filter = .週
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2017
     comp.month = 12
     comp.day = 31
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2016
     comp.month = 12
     comp.day = 28
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2015
     comp.month = 12
     comp.day = 30
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2016
     comp.month = 12
     comp.day = 31
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2017
     comp.month = 1
     comp.day = 1
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2017
     comp.month = 1
     comp.day = 4
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2017
     comp.month = 1
     comp.day = 7
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
     
     comp.year = 2000
     comp.month = 12
     comp.day = 31
-    firstDate = cal.date(from: comp)!
-    setFilterValeu()
-    entries = listDates(filter: filter)
+    filter.originDate = cal.date(from: comp)!
+    filter.set(type: .週, searchString: "")
+    entries = filter.listDates()
     printDates(dates: entries)
   }
   
   private func printDates(dates: [Entry]) {
-    print("▶ \(filter.rawValue) \(DiaryManager.dateFormatter.string(from: firstDate))")
+    print("▶ \(filter.type.rawValue) \(DiaryManager.dateFormatter.string(from: filter.originDate))")
     for date in dates {
       if date.padding {
         print("padding \(date.date)")

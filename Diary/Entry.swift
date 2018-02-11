@@ -9,13 +9,30 @@
 import Foundation
 import RealmSwift
 
+/// 日記の1件の記事を表すクラス
 class Entry {
+  /// 日付（yyyyMMdd形式の文字列）
   let date: String
-  let wn: Int8
-  let wd: Int8
-  var padding = false
-  var db: DBEntry?
   
+  /// 週番号
+  let wn: Int8
+  
+  /// 週の曜日
+  let wd: Int8
+  
+  /// 存在しない日の穴埋めのためのエントリー
+  var padding = false
+  
+  /// DBに登録されている内容
+  var record: Record?
+  
+  /// 初期化
+  ///
+  /// - parameter date: 日付
+  /// - parameter weekNumber: 週番号（省略可）
+  /// - description:
+  /// 年末は第53週と第1週が同じ週を指す場合がある
+  /// その場合第53週の後半（1月）、第1週の前半（12月）はpaddingとして扱う
   init(date: Date, weekNumber: Int = 0) {
     let cal = Calendar.current
     wd = Int8(cal.component(.weekday, from: date))
@@ -34,23 +51,51 @@ class Entry {
     self.date = dateStr
   }
   
+  /// 穴埋め用エントリーの初期化
+  ///
+  /// - parameter paddingDate: 穴埋め時の日付文字列
   init(paddingDate: String) {
     self.date = paddingDate
     wn = 0
     wd = 0
     padding = true
   }
+  
+  /// DBレコードに基づいたエントリーの初期化
+  ///
+  /// - parameter record: DBのレコード
+  init(record: Record) {
+    date = record.date
+    wn = record.wn
+    wd = record.wd
+    self.record = record
+  }
 }
 
-class DBEntry: Object {
+/// DBのレコードを表すクラス、Realmのオブジェクトを継承する
+class Record: Object {
+  /// 日付（yyyyMMdd形式の文字列）
   @objc dynamic var date = ""
+  
+  /// 週番号
   @objc dynamic var wn: Int8 = 0
+  
+  /// 曜日
   @objc dynamic var wd: Int8 = 0
+  
+  /// 日記の記事
   @objc dynamic var text = ""
+  
+  /// 写真の定義、Documents/yyyyMMddフォルダ下の画像ファイルの海洋師なしの名称をカンマ区切りでつなげた文字列
   @objc dynamic var photos = ""
+  
+  /// 削除されたどうかのフラグ、実際の削除は削除フラグの同期後に行う
   @objc dynamic var deleted = false
+  
+  /// 最終更新日時
   @objc dynamic var modified = Date()
   
+  /// 主キーを返す、主キーは日付
   override static func primaryKey() -> String? {
     return "date"
   }
