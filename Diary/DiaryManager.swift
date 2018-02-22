@@ -94,7 +94,14 @@ class DiaryManager {
   }
   
   /// 入力された検索対象文字列
-  var searchString = ""
+  var searchString = "" {
+    didSet {
+      if filterType == .検索 {
+        filter.set(type: filterType, searchString: searchString)
+        listEntries()
+      }
+    }
+  }
   
   /// .検索の際の実際の検索条件
   var filter = DiaryFilter()

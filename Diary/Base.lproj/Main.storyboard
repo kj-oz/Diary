@@ -195,11 +195,153 @@
                         <outlet property="searchBar" destination="MxC-t6-rUk" id="qoY-Xm-YjU"/>
                         <outlet property="searchLabel" destination="Mzn-5K-1VT" id="Pcg-BM-n9h"/>
                         <outlet property="tableView" destination="tad-LA-uml" id="pQg-na-6eB"/>
+                        <segue destination="2bO-FP-S6c" kind="show" identifier="ShowEntryDetail" id="KAy-oB-drt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="118.29085457271366"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kDu-NE-Ctq">
+            <objects>
+                <navigationController id="2bO-FP-S6c" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Zc9-R9-m4b">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="lIa-pd-csd" kind="relationship" relationship="rootViewController" id="Peu-SV-vua"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G4m-Pz-akN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1107" y="124"/>
+        </scene>
+        <!--YYYY年MM月DD日-->
+        <scene sceneID="pau-N1-rZc">
+            <objects>
+                <collectionViewController id="lIa-pd-csd" customClass="EntryViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="re0-uh-heO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="a3x-d8-Kq6">
+                            <size key="itemSize" width="183" height="130"/>
+                            <size key="headerReferenceSize" width="50" height="50"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TextCell" id="Xfl-Ye-EBs" customClass="EntryTextCell" customModule="Diary" customModuleProvider="target">
+                                <rect key="frame" x="96" y="50" width="183" height="130"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="183" height="130"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum dolor sit er elit lamet, " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jro-g3-2Jc">
+                                            <rect key="frame" x="0.0" y="0.0" width="183" height="130"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="jro-g3-2Jc" firstAttribute="leading" secondItem="Xfl-Ye-EBs" secondAttribute="leading" id="0UY-PP-Aze"/>
+                                    <constraint firstAttribute="trailing" secondItem="jro-g3-2Jc" secondAttribute="trailing" id="3OH-rV-L1Y"/>
+                                    <constraint firstAttribute="bottom" secondItem="jro-g3-2Jc" secondAttribute="bottom" id="e8s-gJ-zXz"/>
+                                    <constraint firstItem="jro-g3-2Jc" firstAttribute="top" secondItem="Xfl-Ye-EBs" secondAttribute="top" id="tIP-Vs-tb1"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="textView" destination="jro-g3-2Jc" id="OrD-dJ-lch"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="aVE-be-lAy" customClass="EntryPhotoCell" customModule="Diary" customModuleProvider="target">
+                                <rect key="frame" x="96" y="190" width="183" height="130"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="183" height="130"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aqe-OK-uz2">
+                                            <rect key="frame" x="0.0" y="0.0" width="183" height="130"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Aqe-OK-uz2" secondAttribute="bottom" id="066-e7-w9n"/>
+                                    <constraint firstAttribute="trailing" secondItem="Aqe-OK-uz2" secondAttribute="trailing" id="X5L-Rc-6sd"/>
+                                    <constraint firstItem="Aqe-OK-uz2" firstAttribute="leading" secondItem="aVE-be-lAy" secondAttribute="leading" id="rvN-LZ-fY4"/>
+                                    <constraint firstItem="Aqe-OK-uz2" firstAttribute="top" secondItem="aVE-be-lAy" secondAttribute="top" id="yQY-qV-KuG"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="Aqe-OK-uz2" id="3dZ-qK-OkC"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="PhotoHeader" id="7e3-8X-TQZ" customClass="EntryPhoteHeader" customModule="Diary" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e32-bw-dos">
+                                    <rect key="frame" x="0.0" y="10" width="46" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="ー"/>
+                                    <connections>
+                                        <action selector="del:" destination="7e3-8X-TQZ" eventType="touchUpInside" id="JbS-N0-gVd"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVz-7g-Z5J">
+                                    <rect key="frame" x="329" y="10" width="46" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="＋"/>
+                                    <connections>
+                                        <action selector="add:" destination="7e3-8X-TQZ" eventType="touchUpInside" id="Hpv-YN-EfH"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="写真" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULK-aO-Ozz">
+                                    <rect key="frame" x="166" y="15" width="42" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <connections>
+                                <outlet property="delButton" destination="e32-bw-dos" id="1XD-9R-Odm"/>
+                            </connections>
+                        </collectionReusableView>
+                        <connections>
+                            <outlet property="dataSource" destination="lIa-pd-csd" id="8PV-7u-evZ"/>
+                            <outlet property="delegate" destination="lIa-pd-csd" id="TZy-U6-tio"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="YYYY年MM月DD日" id="2R7-Ce-HnY">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="GIe-GI-Jfw">
+                            <connections>
+                                <action selector="leftButtonTapped:" destination="lIa-pd-csd" id="V0W-G0-wir"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="RBg-rc-g66">
+                            <connections>
+                                <action selector="rightButtonTapped:" destination="lIa-pd-csd" id="3Y4-B1-0dy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="entryTitle" destination="2R7-Ce-HnY" id="cNp-Uj-zIM"/>
+                        <outlet property="leftButton" destination="GIe-GI-Jfw" id="nYZ-if-Jsb"/>
+                        <outlet property="rightButton" destination="RBg-rc-g66" id="iAS-8S-9id"/>
+                        <segue destination="tZk-Fb-mu1" kind="unwind" identifier="HideEntryDetail" unwindAction="backFromEntryView:" id="jE3-kN-c4P"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V5o-Q7-5j4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="tZk-Fb-mu1" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1901.5999999999999" y="126.38680659670166"/>
         </scene>
     </scenes>
 </document>

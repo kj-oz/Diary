@@ -8,26 +8,36 @@
 
 import UIKit
 
+/// 日記アプリのメイン画面（記事の一覧）
 class MainViewController: UIViewController {
 
+  /// 条件ボタン
   @IBOutlet weak var conditionButton: UIButton!
   
+  /// 検索バー
   @IBOutlet weak var searchBar: UISearchBar!
   
+  /// 検索ラベル（検索対象の表示）
   @IBOutlet weak var searchLabel: UILabel!
   
+  ///　テーブルビュー
   @IBOutlet weak var tableView: UITableView!
   
+  /// 日付設定ビュー（検索バーと排他表示）
   @IBOutlet weak var dateView: UIView!
   
+  /// 日記マネージャ
   var dm: DiaryManager!
   
+  /// 検索された全記事
   var entries: [Entry] = []
   
   //var topRow = 0
   
+  /// 表示する最大行数
   var maxRow = 100
   
+  // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -45,19 +55,15 @@ class MainViewController: UIViewController {
     
     let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19980701"
     dm.filter.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
-    dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
-    
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
     dm.filterType = FilterType(rawValue: filterString)!
+    
+    dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
 
     update()
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-
+  // 条件ボタンタップ時の処理
   @IBAction func conditionButtonTapped(_ sender: Any) {
     let alert = UIAlertController(title:"百年日記", message: "表示方法を選択してください", preferredStyle: UIAlertControllerStyle.actionSheet)
     for filter in FilterType.selectables {
@@ -76,14 +82,27 @@ class MainViewController: UIViewController {
     self.present(alert, animated: true, completion: nil)
   }
   
+  // 戻るボタン（日付設定ビュー）タップ時
   @IBAction func backButtonTapped(_ sender: Any) {
     dm.movePrev()
     update()
   }
   
+  // 進むボタン（日付設定ビュー）タップ時
   @IBAction func forwardButtonTapped(_ sender: Any) {
     dm.moveNext()
     update()
+  }
+  
+  // 記事詳細画面から戻ってきた
+  @IBAction func backFromEntryView(_ segue: UIStoryboardSegue) {
+    if let vc = (segue.source as? EntryViewController), vc.updated {
+      if let indexPath = tableView.indexPathForSelectedRow {
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.endUpdates()
+      }
+    }
   }
   
   @objc func searchLabelTapped(_ sender: Any) {
@@ -91,6 +110,12 @@ class MainViewController: UIViewController {
     update()
   }
   
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let nvc = segue.destination as! UINavigationController
+    
+    (nvc.viewControllers[0] as! EntryViewController).entry = entries[(tableView.indexPathForSelectedRow?.row)!]
+  }
+
   private func update() {
     conditionButton.setTitle(dm.filterType.rawValue, for: .normal)
     conditionButton.setTitle(dm.filterType.rawValue, for: .highlighted)
@@ -103,6 +128,9 @@ class MainViewController: UIViewController {
       searchBar.isHidden = false
       dateView.isHidden = true
     }
+    
+    UserDefaults.standard.set(dm.filterType.rawValue, forKey: "filter")
+    UserDefaults.standard.set("", forKey: "search")
   }
 }
 
@@ -124,17 +152,16 @@ extension MainViewController: UITableViewDataSource {
 }
 
 extension MainViewController: UITableViewDelegate {
-//  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    <#code#>
-//  }
-  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    performSegue(withIdentifier: "ShowEntryDetail", sender: self)
+  }
 }
 
 extension MainViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if let searchText = searchBar.text {
       dm.searchString = searchText
-      dm.filterType = .検索
+      UserDefaults.standard.set("", forKey: "search")
     }
   }
 }

@@ -70,6 +70,33 @@ class Entry {
     wd = record.wd
     self.record = record
   }
+  
+  /// DBレコード部分を更新する
+  ///
+  /// - parameter text: 記事
+  /// - parameter photos: 写真定義
+  /// - throws: DBへの書き込みに失敗した場合
+  public func updateRecord(text: String, photos: String) throws {
+    let realm = try Realm()
+    try realm.write {
+      var target: Record
+      if let record = record {
+        target = record
+      } else {
+        target = Record()
+        target.date = date
+        target.wn = wn
+        target.wd = wd
+      }
+      target.text = text
+      target.photos = photos
+      target.modified = Date()
+      if record == nil {
+        realm.add(target)
+        record = target
+      }
+    }
+  }
 }
 
 /// DBのレコードを表すクラス、Realmのオブジェクトを継承する
