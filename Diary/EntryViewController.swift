@@ -36,7 +36,7 @@ class EntryViewController: UICollectionViewController {
       do {
         let photos = try updatePhotoFiles()
         let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0)) as! EntryTextCell
-        try entry.updateRecord(text: textCell.textView.text, photos: photos)
+        try entry.updateData(text: textCell.textView.text, photos: photos)
         initializeData()
         updated = true
       } catch {
@@ -102,18 +102,18 @@ class EntryViewController: UICollectionViewController {
     "\(cal.component(.month, from: date))月\(cal.component(.day, from: date))日"
     photoDir = DiaryManager.docDir.appending("/" + entry.date)
     initializeData()
-    isEditable = (entry.record == nil)
+    isEditable = (entry.data == nil)
   }
   
   /// 編集内容を保持するデータを初期化する
   private func initializeData() {
-    if let record = entry.record {
-      if record.photos.count > 0 {
-        photos = record.photos.components(separatedBy: ",")
+    if let data = entry.data {
+      if data.photos.count > 0 {
+        photos = data.photos.components(separatedBy: ",")
       } else {
         photos = []
       }
-      text = record.text
+      text = data.text
     } else {
       photos = []
       text = ""
@@ -129,7 +129,7 @@ class EntryViewController: UICollectionViewController {
     for photo in photos {
       if photo.starts(with: "add-") {
         if nextPhoto == 0 {
-          if let orginals = entry.record?.photos, orginals.count > 0, let curr = Int((orginals.components(separatedBy: ",").sorted().last)!) {
+          if let orginals = entry.data?.photos, orginals.count > 0, let curr = Int((orginals.components(separatedBy: ",").sorted().last)!) {
             nextPhoto = curr + 1
           } else {
             nextPhoto = 1

@@ -24,7 +24,7 @@ class Entry {
   var padding = false
   
   /// DBに登録されている内容
-  var record: Record?
+  var data: DBEntry?
   
   /// 初期化
   ///
@@ -63,12 +63,12 @@ class Entry {
   
   /// DBレコードに基づいたエントリーの初期化
   ///
-  /// - parameter record: DBのレコード
-  init(record: Record) {
-    date = record.date
-    wn = record.wn
-    wd = record.wd
-    self.record = record
+  /// - parameter data: DBのレコード
+  init(data: DBEntry) {
+    date = data.date
+    wn = data.wn
+    wd = data.wd
+    self.data = data
   }
   
   /// DBレコード部分を更新する
@@ -76,14 +76,14 @@ class Entry {
   /// - parameter text: 記事
   /// - parameter photos: 写真定義
   /// - throws: DBへの書き込みに失敗した場合
-  public func updateRecord(text: String, photos: String) throws {
+  public func updateData(text: String, photos: String) throws {
     let realm = try Realm()
     try realm.write {
-      var target: Record
-      if let record = record {
-        target = record
+      var target: DBEntry
+      if let data = data {
+        target = data
       } else {
-        target = Record()
+        target = DBEntry()
         target.date = date
         target.wn = wn
         target.wd = wd
@@ -91,16 +91,16 @@ class Entry {
       target.text = text
       target.photos = photos
       target.modified = Date()
-      if record == nil {
+      if data == nil {
         realm.add(target)
-        record = target
+        data = target
       }
     }
   }
 }
 
 /// DBのレコードを表すクラス、Realmのオブジェクトを継承する
-class Record: Object {
+class DBEntry: Object {
   /// 日付（yyyyMMdd形式の文字列）
   @objc dynamic var date = ""
   

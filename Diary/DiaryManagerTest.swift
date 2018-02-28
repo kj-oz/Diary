@@ -34,7 +34,7 @@ extension DiaryManager {
       let days = arc4random_uniform(7) + 1
       date = date.addingTimeInterval(Double(days) * 24 * 60 * 60)
       
-      let entry = Record()
+      let entry = DBEntry()
       entry.date = DiaryManager.dateFormatter.string(from: date)
       entry.wd = Int8(cal.component(.weekday, from: date))
       let apiWeek = DiaryManager.weekNumber(of: date)

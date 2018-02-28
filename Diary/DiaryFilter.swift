@@ -480,21 +480,21 @@ class DiaryFilter {
   
   /// DBのレコードから指定の条件に合致したレコードを抽出する
   ///
-  /// - parameter records: レコード
+  /// - parameter data: レコード
   /// - returns: 条件に合致するレコード
-  func applyTo(records: Results<Record>) -> Results<Record> {
-    var filtered: Results<Record>
+  func applyTo(data: Results<DBEntry>) -> Results<DBEntry> {
+    var filtered: Results<DBEntry>
     switch type {
     case .年, .年月, .年月日:
-      filtered = records.filter("date BEGINSWITH %@", String(value))
+      filtered = data.filter("date BEGINSWITH %@", String(value))
     case .月日, .日:
-      filtered = records.filter("date ENDSWITH %@", String(value))
+      filtered = data.filter("date ENDSWITH %@", String(value))
     case .週:
-      filtered = records.filter("wn == %@ AND wd == %@", value / 10, value % 10)
+      filtered = data.filter("wn == %@ AND wd == %@", value / 10, value % 10)
     case .曜日:
-      filtered = records.filter("wd == %@", value)
+      filtered = data.filter("wd == %@", value)
     default:
-      filtered = records
+      filtered = data
     }
     for keyword in keywords {
       filtered = filtered.filter("text CONTAINS %@", keyword)

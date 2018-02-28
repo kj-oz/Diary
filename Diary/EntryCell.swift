@@ -60,9 +60,9 @@ class EntryCell: UITableViewCell {
       return
     }
     
-    if let record = entry.record {
-      entryText.text = record.text
-      let photos = record.photos.split(separator: ",")
+    if let data = entry.data {
+      entryText.text = data.text
+      let photos = data.photos.split(separator: ",")
       if photos.count > 0 {
         photo.bounds = CGRect(x:0, y:0, width:66, height:66)
         let photoPath = DiaryManager.docDir.appendingFormat("/%@/%@.jpg", entry.date, String(photos[0]))

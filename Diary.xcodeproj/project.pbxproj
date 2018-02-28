@@ -13,6 +13,7 @@
 		312DC52E2037F20700224A10 /* EntryPhoteHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52D2037F20700224A10 /* EntryPhoteHeader.swift */; };
 		312DC530203BB9EA00224A10 /* EntryTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52F203BB9EA00224A10 /* EntryTextCell.swift */; };
 		31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31473C002012285E0089B23C /* DiaryManagerTest.swift */; };
+		316C7BB92046E8F600B017D9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 316C7BB82046E8F600B017D9 /* CloudKit.framework */; };
 		31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */; };
 		31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5C01FC31A5400EC7910 /* MainViewController.swift */; };
 		31CAC5C41FC31A5400EC7910 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C21FC31A5400EC7910 /* Main.storyboard */; };
@@ -49,6 +50,8 @@
 		312DC52D2037F20700224A10 /* EntryPhoteHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhoteHeader.swift; sourceTree = "<group>"; };
 		312DC52F203BB9EA00224A10 /* EntryTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTextCell.swift; sourceTree = "<group>"; };
 		31473C002012285E0089B23C /* DiaryManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManagerTest.swift; sourceTree = "<group>"; };
+		316C7BB62046E8F300B017D9 /* Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Diary.entitlements; sourceTree = "<group>"; };
+		316C7BB82046E8F600B017D9 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		31CAC5BB1FC31A5400EC7910 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CAC5C01FC31A5400EC7910 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				316C7BB92046E8F600B017D9 /* CloudKit.framework in Frameworks */,
 				31CAC5D41FC31C0B00EC7910 /* RealmSwift.framework in Frameworks */,
 				31CAC5D21FC31C0B00EC7910 /* Realm.framework in Frameworks */,
 			);
@@ -76,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		316C7BB72046E8F600B017D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				316C7BB82046E8F600B017D9 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		31CAC5B21FC31A5300EC7910 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +95,7 @@
 				31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */,
 				31CAC5BD1FC31A5400EC7910 /* Diary */,
 				31CAC5BC1FC31A5400EC7910 /* Products */,
+				316C7BB72046E8F600B017D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +110,7 @@
 		31CAC5BD1FC31A5400EC7910 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				316C7BB62046E8F300B017D9 /* Diary.entitlements */,
 				31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */,
 				31CAC5C01FC31A5400EC7910 /* MainViewController.swift */,
 				312DC5272037F14D00224A10 /* EntryViewController.swift */,
@@ -151,6 +165,14 @@
 					31CAC5BA1FC31A5400EC7910 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -355,6 +377,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Diary/Diary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8EEF732K9;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -375,6 +398,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Diary/Diary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8EEF732K9;
 				FRAMEWORK_SEARCH_PATHS = (

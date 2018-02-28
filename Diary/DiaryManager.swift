@@ -129,12 +129,12 @@ class DiaryManager {
     delegate?.entriesBeginLoading()
     var entries: [Entry] = []
     if filter.needDb {
-      let records = queryDatabase()
-      entries = wrapDatabases(records: records)
+      let data = queryDatabase()
+      entries = wrapDatabases(data: data)
     } else {
       entries = filter.listDates()
-      let records = queryDatabase()
-      mergeEntries(entries: entries, records: records)
+      let data = queryDatabase()
+      mergeEntries(entries: entries, data: data)
     }
     delegate?.entriesEndLoading(entries: entries)
     print("▷ listEntries end")
@@ -161,9 +161,9 @@ class DiaryManager {
   /// DBから指定の条件に合致した記事を得る
   ///
   /// - returns: 条件に合致する記事
-  func queryDatabase() -> Results<Record> {
+  func queryDatabase() -> Results<DBEntry> {
     let realm = try! Realm()
-    let results = realm.objects(Record.self).filter(
+    let results = realm.objects(DBEntry.self).filter(
       "deleted == false").sorted(byKeyPath: "date", ascending: false)
     return filter.applyTo(records: results)
   }
@@ -171,24 +171,24 @@ class DiaryManager {
   /// filterから得られた合致日付に、DBから得られたレコードをセットする
   ///
   /// - parameter entries: filterから得られた合致日付
-  /// - parameter records: DBから得られたレコード
-  func mergeEntries(entries: [Entry], records: Results<Record>) {
+  /// - parameter data: DBから得られたレコード
+  func mergeEntries(entries: [Entry], data: Results<DBEntry>) {
     var eIndex = 0
     var dIndex = 0
     let eMax = entries.count
-    let dMax = records.count
+    let dMax = data.count
     var eDate: String
     var dDate: String
 
     while eIndex < eMax && dIndex < dMax {
       eDate = entries[eIndex].date
-      dDate = records[dIndex].date
+      dDate = data[dIndex].date
       if eDate < dDate {
         dIndex += 1
       } else if eDate > dDate {
         eIndex += 1
       } else {
-        entries[eIndex].record = records[dIndex]
+        entries[eIndex].data = data[dIndex]
         eIndex += 1
         dIndex += 1
       }
@@ -197,11 +197,11 @@ class DiaryManager {
   
   /// DBから得られたレコードから日記のエントリーを生成する
   ///
-  /// - parameter records: DBから得られたレコード
+  /// - parameter data: DBから得られたレコード
   /// - returns: 日記のエントリー
-  func wrapDatabases(records: Results<Record>) -> [Entry] {
-    return records.map() {
-      return Entry(record: $0)
+  func wrapDatabases(data: Results<DBEntry>) -> [Entry] {
+    return data.map() {
+      return Entry(data: $0)
     }
   }
 }
