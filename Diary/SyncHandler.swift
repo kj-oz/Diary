@@ -141,28 +141,35 @@ class TableSyncHandler<T: SyncronizableObject> {
   }
   
   /// クラウドから前回同期以降に更新されたデータを得る
+  ///
+  /// - parameter completionHandler: データ取得終了時の処理
+  /// - parameter inputCursor: データが多い場合の一連のクエリ用のカーソル
   func downloadRecords(completionHandler: @escaping () -> (), inputCursor: CKQueryCursor? = nil) {
     let operation: CKQueryOperation
     state = .startDownloading
     
-    // We may be starting a new query or continuing a previous one if there are many results
     if let cursor = inputCursor {
+      // 結果数が多い場合の続きのクエリ
       operation = CKQueryOperation(cursor: cursor)
     } else {
+      // 最初のクエリ
       let predicate = NSPredicate(format: "modificationDate > %@", context.lastSync as CVarArg)
       let query = CKQuery(recordType: T.recordType, predicate: predicate)
       operation = CKQueryOperation(query: query)
     }
     
+    // クエリ終了時の処理
     operation.queryCompletionBlock = { [weak self] cursor, error in
-      if let error = error {
-        self?.handleOperationError(error: error, completionHandler: completionHandler, retry: {
+      guard error == nil else {
+        // エラー時処理（必要に応じてRetry）
+        self?.handleOperationError(error: error!, completionHandler: completionHandler, retry: {
           self?.downloadRecords(completionHandler: completionHandler, inputCursor: inputCursor)
         })
         return
       }
 
       if let cursor = cursor {
+        // カーソルが渡されている＝データに続きがある
         self?.downloadRecords(completionHandler: completionHandler, inputCursor: cursor)
       } else {
         self?.state = .endDownloading
@@ -170,10 +177,11 @@ class TableSyncHandler<T: SyncronizableObject> {
       }
     }
     
+    // 個々のレコードがダウンロードされてきた際の処理
     operation.recordFetchedBlock = { [weak self] record in
-      // When a note is fetched from the cloud, process it into the local database
       let modified = try? T.self.importFromCloud(record: record)
       if let modified = modified, modified {
+        // アップロード予定のローカルの編集の中で、クラウドからのデータの方が新しかったものがあれば除去
         self?.removeModified(id: record.recordID)
       }
     }
@@ -181,7 +189,9 @@ class TableSyncHandler<T: SyncronizableObject> {
     context.database.add(operation)
   }
 
-  
+  /// クラウドへ前回同期以降にローカルで更新されたデータを送る
+  ///
+  /// - parameter completionHandler: データ送付終了時の処理
   func uploadRecords(completionHandler: @escaping () -> ()) {
     let operation = CKModifyRecordsOperation(recordsToSave: localUpdates, recordIDsToDelete: localDeletes)
     operation.savePolicy = .changedKeys
@@ -201,6 +211,12 @@ class TableSyncHandler<T: SyncronizableObject> {
     context.database.add(operation)
   }
   
+  /// オペレーションのエラーに対処する
+  /// エラーのUserInfoにRetryAfterが設定されたいた場合、与えられた処理を実行する
+  ///
+  /// - parameter error: 発生したエラー
+  /// - parameter completionHandler: オペレーション終了時の処理
+  /// - parameter retry: Retry時に実行する処理
   private func handleOperationError(error: Error, completionHandler: @escaping () -> (),
                                     retry: @escaping () -> ()) {
     if let ckerror = error as? CKError,
@@ -218,6 +234,9 @@ class TableSyncHandler<T: SyncronizableObject> {
     }
   }
 
+  /// アップロード用のローカルの編集内容から、クラウドで更新された指定のレコードIDのデータを抜く
+  ///
+  /// - parameter id: クラウドで更新されたレコードのID
   private func removeModified(id: CKRecordID) {
     for (index, element) in localUpdates.enumerated() {
       if element.recordID == id {

@@ -127,7 +127,7 @@ class Entry {
       for added in addedImages {
         let path = photoDir.appendingFormat("/%@.jpg", added.key)
         
-        // 画像は長辺2048pixel、データサイズ1M以下にする
+        // 画像は長辺2048px、データサイズ1MB以下にする
         let data = added.value.data(maxLength: 2048, maxByte: 1024 * 1024)
         if !fm.fileExists(atPath: photoDir, isDirectory: nil) {
           try fm.createDirectory(atPath: photoDir,
@@ -139,6 +139,11 @@ class Entry {
     }
   }
   
+  /// 写真データのDBデータを更新する
+  ///
+  /// - parameter realm: DB
+  /// - parameter id: 写真のid（0埋め3桁の連番の文字列）
+  /// - parameter deleted: 削除されたかどうか
   private func updateDBPhoto(realm: Realm, id: String, deleted: Bool = false) {
     let data = DBPhoto()
     data.id = date + id
@@ -146,39 +151,15 @@ class Entry {
     data.modified = Date()
     realm.add(data, update: true)
   }
-  
-  private func resizeImage(image: UIImage, maxLength: Int, maxByte: Int) -> Data {
-    print("image.size:\(image.size)")
-    let size = image.size
-    let length = max(size.width, size.height)
-    var scale = min(1.0, Double(maxLength) / Double(length))
-    var data: Data = Data()
-    while true {
-      if (scale < 1.0) {
-        let newSize = CGSize(width: Int(Double(size.width) * scale),
-                           height: Int(Double(size.height) * scale))
-        UIGraphicsBeginImageContext(newSize)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        data = UIImageJPEGRepresentation(newImage, 0.8)!
-        print("resize to:\(newSize) -> \(data.count / 1024)KB")
-      } else {
-        data = UIImageJPEGRepresentation(image, 0.8)!
-        print("-> \(data.count / 1024)KB")
-      }
-      if data.count < maxByte {
-        print("")
-        return data
-      }
-      // 単純な計算値だと収束しない恐れがあるので、1割縮小
-      let factor = sqrt(Double(maxByte) / Double(data.count)) / 1.1
-      scale *= factor
-    }
-  }
 }
 
+// MARK: イメージの拡張
 extension UIImage {
+  /// 与えらたピクセルサイズ、バイト数に納まるようにリサイズしたバイト列を得る
+  ///
+  /// - parameter maxLength: 最大ピクセル数（縦横とも）
+  /// - parameter maxByte: 最大バイト数
+  /// - returns 与えられた条件をクリアしたバイト列
   func data(maxLength: Int, maxByte: Int) -> Data {
     print("image.size:\(size)")
     let length = max(size.width, size.height)

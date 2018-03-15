@@ -10,7 +10,7 @@
 		310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310C4BA41FE958C600A13D70 /* EntryCell.swift */; };
 		312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC5272037F14D00224A10 /* EntryViewController.swift */; };
 		312DC52C2037F1AE00224A10 /* EntryPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */; };
-		312DC52E2037F20700224A10 /* EntryPhoteHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52D2037F20700224A10 /* EntryPhoteHeader.swift */; };
+		312DC52E2037F20700224A10 /* EntryPhotoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52D2037F20700224A10 /* EntryPhotoHeader.swift */; };
 		312DC530203BB9EA00224A10 /* EntryTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52F203BB9EA00224A10 /* EntryTextCell.swift */; };
 		31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31473C002012285E0089B23C /* DiaryManagerTest.swift */; };
 		316C7BB92046E8F600B017D9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 316C7BB82046E8F600B017D9 /* CloudKit.framework */; };
@@ -49,7 +49,7 @@
 		310C4BA41FE958C600A13D70 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		312DC5272037F14D00224A10 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhotoCell.swift; sourceTree = "<group>"; };
-		312DC52D2037F20700224A10 /* EntryPhoteHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhoteHeader.swift; sourceTree = "<group>"; };
+		312DC52D2037F20700224A10 /* EntryPhotoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhotoHeader.swift; sourceTree = "<group>"; };
 		312DC52F203BB9EA00224A10 /* EntryTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTextCell.swift; sourceTree = "<group>"; };
 		31473C002012285E0089B23C /* DiaryManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManagerTest.swift; sourceTree = "<group>"; };
 		316C7BB62046E8F300B017D9 /* Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Diary.entitlements; sourceTree = "<group>"; };
@@ -119,9 +119,9 @@
 				31CAC5C01FC31A5400EC7910 /* MainViewController.swift */,
 				312DC5272037F14D00224A10 /* EntryViewController.swift */,
 				312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */,
-				312DC52D2037F20700224A10 /* EntryPhoteHeader.swift */,
-				31CAC5C21FC31A5400EC7910 /* Main.storyboard */,
+				312DC52D2037F20700224A10 /* EntryPhotoHeader.swift */,
 				312DC52F203BB9EA00224A10 /* EntryTextCell.swift */,
+				31CAC5C21FC31A5400EC7910 /* Main.storyboard */,
 				31CAC5C51FC31A5400EC7910 /* Assets.xcassets */,
 				31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */,
 				31CAC5CA1FC31A5400EC7910 /* Info.plist */,
@@ -244,7 +244,7 @@
 				31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */,
 				316C7BBB20483F9500B017D9 /* SyncHandler.swift in Sources */,
 				312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */,
-				312DC52E2037F20700224A10 /* EntryPhoteHeader.swift in Sources */,
+				312DC52E2037F20700224A10 /* EntryPhotoHeader.swift in Sources */,
 				31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */,
 				31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */,
 			);

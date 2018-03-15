@@ -8,13 +8,16 @@
 
 import UIKit
 
+/// コレクションビューのテキストセル
 class EntryTextCell: UICollectionViewCell {
+  
+  /// テキストビュー
   @IBOutlet weak var textView: UITextView!
   
+  /// テキストが編集可能かどうか
   var isEditable = false {
     didSet {
       textView.isEditable = isEditable
     }
   }
-  
 }

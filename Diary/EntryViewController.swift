@@ -69,7 +69,7 @@ class EntryViewController: UICollectionViewController {
   var updated = false
   
   /// 写真セクションのヘッダー（＋ーのボタンを持つ）
-  weak var photoHeader: EntryPhoteHeader?
+  weak var photoHeader: EntryPhotoHeader?
   
   /// 対象の記事の元データ
   var entry: Entry!
@@ -187,7 +187,7 @@ extension EntryViewController { //: UICollectionViewDataSource
                                at indexPath: IndexPath) -> UICollectionReusableView {
     switch kind {
     case UICollectionElementKindSectionHeader:
-      let photoHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "PhotoHeader", for: indexPath) as! EntryPhoteHeader
+      let photoHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "PhotoHeader", for: indexPath) as! EntryPhotoHeader
       if indexPath.section == 1 {
         photoHeader.viewController = self
         self.photoHeader = photoHeader

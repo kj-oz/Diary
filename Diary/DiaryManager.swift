@@ -82,6 +82,7 @@ class DiaryManager {
     return currWeek
   }
   
+  /// 唯一のインスタンス
   static var shared = DiaryManager()
   
   /// ユーザの選択したフィルタ種別
@@ -113,8 +114,10 @@ class DiaryManager {
   /// 日記セットが変化した際に処理を行うデリゲート
   var delegate: DiaryManagerDelegate?
   
+  /// iCloudとの同期を受け持つオブジェクト
   private var syncHandler: SyncHandler
   
+  /// iCloudにログインしているかどうか
   private var hasConnection = false
   
   /// 初期化
@@ -130,6 +133,9 @@ class DiaryManager {
     //test()
   }
   
+  /// iCloudにログインしているかチェックする
+  ///
+  /// - parameter completionHandler: ログインしているかどうか判定がついた際に行う処理
   func checkCloudConnection(_ completionHandler:
       @escaping (_ status: CKAccountStatus, _ error: Error?) -> ()) {
     syncHandler.container.accountStatus(completionHandler: { (status, error) in
