@@ -37,10 +37,14 @@ class MainViewController: UIViewController {
   /// 表示する最大行数
   var maxRow = 100
   
+  /// iCloudへのログインを促すダイアログを表示するかどうか
+  var showPrompt = false
+  
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    print("▷ viewDidLoad")
     tableView.delegate = self
     tableView.dataSource = self
     searchBar.delegate = self
@@ -48,21 +52,58 @@ class MainViewController: UIViewController {
     tapGR.numberOfTapsRequired = 2
     searchLabel.addGestureRecognizer(tapGR)
     
-    dm = DiaryManager()
+    dm = DiaryManager.shared
+    
+    // CloudKit にログインしているかチェック
+    dm.checkCloudConnection({ status, error in
+      if error != nil || status == .noAccount {
+        print("▶ hasConnection: false")
+        self.showPrompt = true
+      } else {
+        print("▶ hasConnection: true")
+        self.dm.sync()
+      }
+    })
+    dm.delegate = self
     // dm.insertData()
     
-    dm.delegate = self
-    
+    // 各種設定値の読み込み
     let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19980701"
     dm.filter.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
     dm.filterType = FilterType(rawValue: filterString)!
-    
     dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
 
     update()
   }
+  
+  // 画面が表示された直後に呼び出される
+  override func viewDidAppear(_ animated: Bool) {
+    if showPrompt {
+      // iCloudへログインするよう促す
+      let alert = UIAlertController(title:"百年日記", message: "iCloudへサインインしてください。またiCloud DriveをONにしてください。", preferredStyle: UIAlertControllerStyle.alert)
+      let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+      alert.addAction(ok)
+      self.present(alert, animated: true, completion: nil)
 
+      showPrompt = false
+    }
+  }
+  
+  /// アプリがフォアグラウンド化された際のイベントの待ち受けを登録する
+  fileprivate func setupEnterForegroundEvent() {
+    let nc = NotificationCenter.default;
+    nc.addObserver(self, selector: #selector(MainViewController.applicationWillEnterForeground),
+                   name: NSNotification.Name(rawValue: "applicationWillEnterForeground"),
+                   object: nil);
+  }
+  
+  /// アプリ・フォアグラウンド化時に、クラウドとの同期を行う
+  @objc func applicationWillEnterForeground() {
+    print("▷ applicationWillEnterForeground")
+    dm.sync()
+  }
+  
   // 条件ボタンタップ時の処理
   @IBAction func conditionButtonTapped(_ sender: Any) {
     let alert = UIAlertController(title:"百年日記", message: "表示方法を選択してください", preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -105,17 +146,20 @@ class MainViewController: UIViewController {
     }
   }
   
+  // 日付設定ビューの日付タップ時（当日に戻す）
   @objc func searchLabelTapped(_ sender: Any) {
     dm.resetDate()
     update()
   }
   
+  // segueによる移動の直前
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let nvc = segue.destination as! UINavigationController
     
     (nvc.viewControllers[0] as! EntryViewController).entry = entries[(tableView.indexPathForSelectedRow?.row)!]
   }
 
+  /// 日付設定バー等の表示を更新する
   private func update() {
     conditionButton.setTitle(dm.filterType.rawValue, for: .normal)
     conditionButton.setTitle(dm.filterType.rawValue, for: .highlighted)
@@ -134,16 +178,19 @@ class MainViewController: UIViewController {
   }
 }
 
+// MARK: UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
+  // 各セクションの行数を返す
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return min(entries.count, maxRow)
   }
   
+  // セクション数を返す
   func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
   
-  
+  // 指定の indexPath のセルを返す
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell") as! EntryCell
     cell.render(entry: entries[indexPath.row])
@@ -151,25 +198,32 @@ extension MainViewController: UITableViewDataSource {
   }
 }
 
+// MARK: UITableViewDelegate
 extension MainViewController: UITableViewDelegate {
+  // 行選択時の処理
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     performSegue(withIdentifier: "ShowEntryDetail", sender: self)
   }
 }
 
+// MARK: UISearchBarDelegate
 extension MainViewController: UISearchBarDelegate {
+  // 検索ボタン押下時
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if let searchText = searchBar.text {
       dm.searchString = searchText
-      UserDefaults.standard.set("", forKey: "search")
+      UserDefaults.standard.set(searchText, forKey: "search")
     }
   }
 }
 
+// MARK: DiaryManagerDelegate
 extension MainViewController: DiaryManagerDelegate {
+  // 記事の再ロードの開始
   func entriesBeginLoading() {
   }
   
+  // 記事の再ロードの終了
   func entriesEndLoading(entries: [Entry]) {
     self.entries = entries
     tableView.reloadData()

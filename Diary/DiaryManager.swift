@@ -9,6 +9,8 @@
 
 import Foundation
 import RealmSwift
+import CloudKit
+import UIKit
 
 /// 新たな日記セットのロード時の処理を受け持つデリゲート
 protocol DiaryManagerDelegate {
@@ -80,6 +82,8 @@ class DiaryManager {
     return currWeek
   }
   
+  static var shared = DiaryManager()
+  
   /// ユーザの選択したフィルタ種別
   var filterType: FilterType! {
     didSet {
@@ -109,14 +113,39 @@ class DiaryManager {
   /// 日記セットが変化した際に処理を行うデリゲート
   var delegate: DiaryManagerDelegate?
   
+  private var syncHandler: SyncHandler
+  
+  private var hasConnection = false
+  
   /// 初期化
-  init() {
+  private init() {
     let cal = Calendar.current
     filter.originDate = cal.startOfDay(for: Date())
     filter.earliestDate = Date(timeIntervalSinceReferenceDate: 0)
+    
+    syncHandler = SyncHandler()
+    
     print(DiaryManager.docDir)
     
     //test()
+  }
+  
+  func checkCloudConnection(_ completionHandler:
+      @escaping (_ status: CKAccountStatus, _ error: Error?) -> ()) {
+    syncHandler.container.accountStatus(completionHandler: { (status, error) in
+      if error != nil || status == .noAccount {
+        completionHandler(status, error)
+      } else {
+        self.hasConnection = true
+      }
+    })
+  }
+  
+  /// クラウドとの同期処理を開始する
+  func sync() {
+    if hasConnection {
+      syncHandler.startSync()
+    }
   }
   
   /// 各種の条件が変化した際に、条件に合致する日記セットを取得し直す
@@ -165,7 +194,7 @@ class DiaryManager {
     let realm = try! Realm()
     let results = realm.objects(DBEntry.self).filter(
       "deleted == false").sorted(byKeyPath: "date", ascending: false)
-    return filter.applyTo(records: results)
+    return filter.applyTo(data: results)
   }
   
   /// filterから得られた合致日付に、DBから得られたレコードをセットする
@@ -205,3 +234,4 @@ class DiaryManager {
     }
   }
 }
+

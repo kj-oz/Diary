@@ -14,6 +14,8 @@
 		312DC530203BB9EA00224A10 /* EntryTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52F203BB9EA00224A10 /* EntryTextCell.swift */; };
 		31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31473C002012285E0089B23C /* DiaryManagerTest.swift */; };
 		316C7BB92046E8F600B017D9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 316C7BB82046E8F600B017D9 /* CloudKit.framework */; };
+		316C7BBB20483F9500B017D9 /* SyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316C7BBA20483F9500B017D9 /* SyncHandler.swift */; };
+		316C7BBD204A24FC00B017D9 /* DBEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316C7BBC204A24FC00B017D9 /* DBEntry.swift */; };
 		31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */; };
 		31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5C01FC31A5400EC7910 /* MainViewController.swift */; };
 		31CAC5C41FC31A5400EC7910 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC5C21FC31A5400EC7910 /* Main.storyboard */; };
@@ -52,6 +54,8 @@
 		31473C002012285E0089B23C /* DiaryManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManagerTest.swift; sourceTree = "<group>"; };
 		316C7BB62046E8F300B017D9 /* Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Diary.entitlements; sourceTree = "<group>"; };
 		316C7BB82046E8F600B017D9 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		316C7BBA20483F9500B017D9 /* SyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHandler.swift; sourceTree = "<group>"; };
+		316C7BBC204A24FC00B017D9 /* DBEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBEntry.swift; sourceTree = "<group>"; };
 		31CAC5BB1FC31A5400EC7910 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC5BE1FC31A5400EC7910 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CAC5C01FC31A5400EC7910 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +126,9 @@
 				31CAC5C71FC31A5400EC7910 /* LaunchScreen.storyboard */,
 				31CAC5CA1FC31A5400EC7910 /* Info.plist */,
 				31CAC5D81FC5C20000EC7910 /* Entry.swift */,
+				316C7BBC204A24FC00B017D9 /* DBEntry.swift */,
 				31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */,
+				316C7BBA20483F9500B017D9 /* SyncHandler.swift */,
 				31FB5878202C89FB007ED042 /* DiaryFilter.swift */,
 				310C4BA41FE958C600A13D70 /* EntryCell.swift */,
 				31473C002012285E0089B23C /* DiaryManagerTest.swift */,
@@ -229,12 +235,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
+				316C7BBD204A24FC00B017D9 /* DBEntry.swift in Sources */,
 				310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */,
 				31FB5879202C89FB007ED042 /* DiaryFilter.swift in Sources */,
 				312DC530203BB9EA00224A10 /* EntryTextCell.swift in Sources */,
 				312DC52C2037F1AE00224A10 /* EntryPhotoCell.swift in Sources */,
 				31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */,
 				31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */,
+				316C7BBB20483F9500B017D9 /* SyncHandler.swift in Sources */,
 				312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */,
 				312DC52E2037F20700224A10 /* EntryPhoteHeader.swift in Sources */,
 				31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */,

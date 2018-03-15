@@ -33,10 +33,12 @@ class EntryViewController: UICollectionViewController {
   /// 右ボタン（編集/完了）タップ時
   @IBAction func rightButtonTapped(_ sender: Any) {
     if isEditable {
+      let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0))
+        as! EntryTextCell
       do {
-        let photos = try updatePhotoFiles()
-        let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0)) as! EntryTextCell
-        try entry.updateData(text: textCell.textView.text, photos: photos)
+        try entry.updatePhotos(addedImages: addedImages, deletedPhotos: deletedPhotos)
+        try entry.updateData(text: textCell.textView.text, photos: photos.joined(separator: ","))
+        DiaryManager.shared.sync()
         initializeData()
         updated = true
       } catch {
@@ -84,7 +86,12 @@ class EntryViewController: UICollectionViewController {
   var photos: [String] = []
   
   /// 追加された写真
-  var addedImages: [UIImage] = []
+  var addedImages: [String:UIImage] = [:]
+  
+  ///
+  var deletedPhotos: [String] = []
+  
+  var maxPhotoNo = 0
   
   /// インセット
   fileprivate let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
@@ -98,8 +105,8 @@ class EntryViewController: UICollectionViewController {
     
     let date = DiaryManager.dateFormatter.date(from: entry.date)!
     let cal = Calendar.current
-    self.entryTitle.title = "\(cal.component(.year, from: date))年" +
-    "\(cal.component(.month, from: date))月\(cal.component(.day, from: date))日"
+    self.entryTitle.title = "\(cal.component(.year, from: date))年"
+      + "\(cal.component(.month, from: date))月\(cal.component(.day, from: date))日"
     photoDir = DiaryManager.docDir.appending("/" + entry.date)
     initializeData()
     isEditable = (entry.data == nil)
@@ -110,6 +117,14 @@ class EntryViewController: UICollectionViewController {
     if let data = entry.data {
       if data.photos.count > 0 {
         photos = data.photos.components(separatedBy: ",")
+        let fm = FileManager.default
+        for (index, photo) in photos.enumerated() {
+          maxPhotoNo = max(maxPhotoNo, Int(photo)!)
+          if !fm.fileExists(atPath: filePathOf(photo)) {
+            deletedPhotos.append(photo)
+            photos.remove(at: index)
+          }
+        }
       } else {
         photos = []
       }
@@ -120,37 +135,12 @@ class EntryViewController: UICollectionViewController {
     }
   }
   
-  /// 写真データを最新化する
-  ///
-  /// - returns: 最新の写真定義
-  private func updatePhotoFiles() throws -> String {
-    var nextPhoto = 0
-    var renamed: [String] = []
-    for photo in photos {
-      if photo.starts(with: "add-") {
-        if nextPhoto == 0 {
-          if let orginals = entry.data?.photos, orginals.count > 0, let curr = Int((orginals.components(separatedBy: ",").sorted().last)!) {
-            nextPhoto = curr + 1
-          } else {
-            nextPhoto = 1
-          }
-        }
-        let addedIndex = Int(String(describing: photo.suffix(photo.count - 4)))!
-        let data = UIImageJPEGRepresentation(addedImages[addedIndex], 0.8)
-        let newPhoto = String(format: "%03d", nextPhoto)
-        let path = photoDir.appendingFormat("/%@.jpg", newPhoto)
-        let fm = FileManager.default
-        if !fm.fileExists(atPath: photoDir, isDirectory: nil) {
-          try fm.createDirectory(atPath: photoDir, withIntermediateDirectories: false, attributes: nil)
-        }
-        try data!.write(to: URL(fileURLWithPath: path))
-        renamed.append(newPhoto)
-        nextPhoto += 1
-      } else {
-        renamed.append(photo)
-      }
-    }
-    return renamed.joined(separator: ",")
+  private func filePathOf(_ photo: String) -> String {
+    return photoDir.appendingFormat("/%@.jpg", photo)
+  }
+  
+  private func photoIdOf(_ index: Int) -> String {
+    return String(format: "%03d", index)
   }
   
   /// イメージピッカーを表示して追加する写真を指示させる
@@ -166,7 +156,9 @@ class EntryViewController: UICollectionViewController {
   /// 選択されている写真を削除する
   public func removePhoto() {
     if let indexPath = collectionView?.indexPathsForSelectedItems?[0], indexPath.section == 1 {
-      photos.remove(at: indexPath.row)
+      let photo = photos.remove(at: indexPath.row)
+      deletedPhotos.append(photo)
+      addedImages.removeValue(forKey: photo)
       collectionView?.deleteItems(at: [indexPath])
       photoHeader?.updateDeleteButton()
     }
@@ -226,13 +218,11 @@ extension EntryViewController { //: UICollectionViewDataSource
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: "PhotoCell", for: indexPath) as! EntryPhotoCell
       
-      var photo = photos[indexPath.row]
-      if photo.count < 4 {
-        photo = photoDir.appendingFormat("/%@.jpg", photo)
-        cell.imageView.image = UIImage(contentsOfFile: photo)
+      let photo = photos[indexPath.row]
+      if let image = addedImages[photo] {
+        cell.imageView.image = image
       } else {
-        photo = String(photo.suffix(photo.count - 4))
-        cell.imageView.image = addedImages[Int(photo)!]
+        cell.imageView.image = UIImage(contentsOfFile: filePathOf(photo))
       }
       return cell
     }
@@ -340,8 +330,10 @@ extension EntryViewController: UIImagePickerControllerDelegate, UINavigationCont
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     let image = (info[UIImagePickerControllerEditedImage] ??
       info[UIImagePickerControllerOriginalImage]) as! UIImage
-    addedImages.append(image)
-    photos.append("add-\(addedImages.count - 1)")
+    maxPhotoNo += 1
+    let id = photoIdOf(maxPhotoNo)
+    addedImages[id] = image
+    photos.append(id)
     let indexPath = IndexPath(row: photos.count - 1, section: 1)
     collectionView?.insertItems(at: [indexPath])
     photoHeader?.updateDeleteButton()

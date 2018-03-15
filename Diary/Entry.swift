@@ -8,6 +8,8 @@
 
 import Foundation
 import RealmSwift
+import CloudKit
+import UIKit
 
 /// 日記の1件の記事を表すクラス
 class Entry {
@@ -77,12 +79,16 @@ class Entry {
   /// - parameter photos: 写真定義
   /// - throws: DBへの書き込みに失敗した場合
   public func updateData(text: String, photos: String) throws {
+    let isDeleted = text.count == 0 && photos.count == 0
     let realm = try Realm()
     try realm.write {
       var target: DBEntry
       if let data = data {
         target = data
       } else {
+        if isDeleted {
+          return
+        }
         target = DBEntry()
         target.date = date
         target.wn = wn
@@ -91,40 +97,115 @@ class Entry {
       target.text = text
       target.photos = photos
       target.modified = Date()
+      target.deleted = isDeleted
       if data == nil {
         realm.add(target)
         data = target
       }
     }
   }
+
+  /// 写真データを更新する
+  ///
+  /// - parameter addedImage: 追加されたイメージのマップ
+  /// - parameter deletedPhotos: 削除された写真のIDの配列
+  /// - throws: DBへの保存に失敗した場合、新規イメージの保存に失敗した場合
+  func updatePhotos(addedImages: [String:UIImage], deletedPhotos: [String]) throws {
+    let photoDir = DiaryManager.docDir.appendingFormat("/%@", date)
+    let realm = try Realm()
+    let fm = FileManager.default
+    try realm.write {
+      
+      for photo in deletedPhotos {
+        // DBデータは、クラウドへ伝搬する必要があるため論理削除
+        updateDBPhoto(realm: realm, id: photo, deleted: true)
+        
+        // ファイルは物理削除
+        try? fm.removeItem(atPath: photoDir.appendingFormat("/%@.jpg", photo))
+      }
+      
+      for added in addedImages {
+        let path = photoDir.appendingFormat("/%@.jpg", added.key)
+        
+        // 画像は長辺2048pixel、データサイズ1M以下にする
+        let data = added.value.data(maxLength: 2048, maxByte: 1024 * 1024)
+        if !fm.fileExists(atPath: photoDir, isDirectory: nil) {
+          try fm.createDirectory(atPath: photoDir,
+                                 withIntermediateDirectories: false, attributes: nil)
+        }
+        try data.write(to: URL(fileURLWithPath: path))
+        updateDBPhoto(realm: realm, id: added.key)
+      }
+    }
+  }
+  
+  private func updateDBPhoto(realm: Realm, id: String, deleted: Bool = false) {
+    let data = DBPhoto()
+    data.id = date + id
+    data.deleted = deleted
+    data.modified = Date()
+    realm.add(data, update: true)
+  }
+  
+  private func resizeImage(image: UIImage, maxLength: Int, maxByte: Int) -> Data {
+    print("image.size:\(image.size)")
+    let size = image.size
+    let length = max(size.width, size.height)
+    var scale = min(1.0, Double(maxLength) / Double(length))
+    var data: Data = Data()
+    while true {
+      if (scale < 1.0) {
+        let newSize = CGSize(width: Int(Double(size.width) * scale),
+                           height: Int(Double(size.height) * scale))
+        UIGraphicsBeginImageContext(newSize)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        data = UIImageJPEGRepresentation(newImage, 0.8)!
+        print("resize to:\(newSize) -> \(data.count / 1024)KB")
+      } else {
+        data = UIImageJPEGRepresentation(image, 0.8)!
+        print("-> \(data.count / 1024)KB")
+      }
+      if data.count < maxByte {
+        print("")
+        return data
+      }
+      // 単純な計算値だと収束しない恐れがあるので、1割縮小
+      let factor = sqrt(Double(maxByte) / Double(data.count)) / 1.1
+      scale *= factor
+    }
+  }
 }
 
-/// DBのレコードを表すクラス、Realmのオブジェクトを継承する
-class DBEntry: Object {
-  /// 日付（yyyyMMdd形式の文字列）
-  @objc dynamic var date = ""
-  
-  /// 週番号
-  @objc dynamic var wn: Int8 = 0
-  
-  /// 曜日
-  @objc dynamic var wd: Int8 = 0
-  
-  /// 日記の記事
-  @objc dynamic var text = ""
-  
-  /// 写真の定義、Documents/yyyyMMddフォルダ下の画像ファイルの海洋師なしの名称をカンマ区切りでつなげた文字列
-  @objc dynamic var photos = ""
-  
-  /// 削除されたどうかのフラグ、実際の削除は削除フラグの同期後に行う
-  @objc dynamic var deleted = false
-  
-  /// 最終更新日時
-  @objc dynamic var modified = Date()
-  
-  /// 主キーを返す、主キーは日付
-  override static func primaryKey() -> String? {
-    return "date"
+extension UIImage {
+  func data(maxLength: Int, maxByte: Int) -> Data {
+    print("image.size:\(size)")
+    let length = max(size.width, size.height)
+    var scale = min(1.0, Double(maxLength) / Double(length))
+    var data: Data = Data()
+    while true {
+      if (scale < 1.0) {
+        let newSize = CGSize(width: Int(Double(size.width) * scale),
+                             height: Int(Double(size.height) * scale))
+        UIGraphicsBeginImageContext(newSize)
+        draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        data = UIImageJPEGRepresentation(newImage, 0.8)!
+        print("resize to:\(newSize) -> \(data.count / 1024)KB")
+      } else {
+        data = UIImageJPEGRepresentation(self, 0.8)!
+        print("-> \(data.count / 1024)KB")
+      }
+      if data.count < maxByte {
+        print("")
+        return data
+      }
+      // 単純な計算値だと収束しない恐れがあるので、1割縮小
+      let factor = sqrt(Double(maxByte) / Double(data.count)) / 1.1
+      scale *= factor
+    }
   }
 }
 
