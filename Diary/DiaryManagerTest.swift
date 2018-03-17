@@ -106,7 +106,7 @@ extension DiaryManager {
     comp.month = 1
     comp.day = 1
     filter.originDate = cal.date(from: comp)!
-    filter.set(type: .なし, searchString: "")
+    filter.set(type: .毎日, searchString: "")
     entries = filter.listDates()
     printDates(dates: entries)
     

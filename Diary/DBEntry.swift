@@ -214,7 +214,7 @@ class DBPhoto: SyncronizableObject {
   
   // クラウドからダウンロードされたレコードでオブジェクトが更新されたときに呼び出される
   override func updateFromCloud(record: CKRecord) {
-    let id = record["id"] as! String
+    let id = record.recordID.recordName
     let path = DiaryManager.docDir.appendingFormat("/%@/%@.jpg", String(id.prefix(8)), String(id.suffix(3)))
     let asset = record["photo"] as! CKAsset
     let fm = FileManager.default

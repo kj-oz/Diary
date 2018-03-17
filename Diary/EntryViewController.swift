@@ -65,7 +65,7 @@ class EntryViewController: UICollectionViewController {
     }
   }
   
-  /// 編集されたかどうか
+  /// 記事が更新されたかどうか
   var updated = false
   
   /// 写真セクションのヘッダー（＋ーのボタンを持つ）
@@ -85,12 +85,13 @@ class EntryViewController: UICollectionViewController {
   /// 新規追加分は「add-ｎ」（nはaddedImagesの中のindex）
   var photos: [String] = []
   
-  /// 追加された写真
+  /// 追加された写真のID（3桁の連番）とイメージの辞書
   var addedImages: [String:UIImage] = [:]
   
-  ///
+  /// 削除された写真のID（3桁の連番）の配列
   var deletedPhotos: [String] = []
   
+  /// 写真のIDの最大値
   var maxPhotoNo = 0
   
   /// インセット
@@ -135,12 +136,19 @@ class EntryViewController: UICollectionViewController {
     }
   }
   
+  /// 指定のIDの写真のファイルパスを返す
+  ///
+  /// - parameter photo: 写真のID
+  /// - returns: その写真のイメージを保存するパス
   private func filePathOf(_ photo: String) -> String {
     return photoDir.appendingFormat("/%@.jpg", photo)
   }
   
-  private func photoIdOf(_ index: Int) -> String {
-    return String(format: "%03d", index)
+  /// 指定の連番の写真のIDを返す
+  ///
+  /// - parameter no: 写真の番号
+  private func photoIdOf(_ no: Int) -> String {
+    return String(format: "%03d", no)
   }
   
   /// イメージピッカーを表示して追加する写真を指示させる
@@ -175,7 +183,8 @@ class EntryViewController: UICollectionViewController {
   }
 }
 
-extension EntryViewController { //: UICollectionViewDataSource
+// MARK: UICollectionViewDataSource
+extension EntryViewController {
   // セクション数を返す
   override func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 2
@@ -229,6 +238,7 @@ extension EntryViewController { //: UICollectionViewDataSource
   }
 }
 
+// MARK: UICollectionViewDelegateFlowLayout
 extension EntryViewController: UICollectionViewDelegateFlowLayout {
   // セルのサイズを返す
   func collectionView(_ collectionView: UICollectionView,
@@ -325,6 +335,7 @@ extension EntryViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: UIImagePickerControllerDelegate
 extension EntryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   // ライブラリーから写真を選択した後呼び出される
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
