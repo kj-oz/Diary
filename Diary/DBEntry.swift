@@ -54,10 +54,10 @@ class SyncronizableObject: Object {
   ///
   /// - parameter record: クラウドから得られたレコード
   /// - returns: ローカルデータの更新が行われた場合にtrue、行われなければfalse
-  static func importFromCloud(record: CKRecord) throws -> Bool {
+  class func importFromCloud(record: CKRecord) throws -> Bool {
     let object = from(record: record)!
     guard let primaryKey = primaryKey(),
-        let primaryKeyValue = value(forKey: primaryKey) else {
+        let primaryKeyValue = object.value(forKey: primaryKey) else {
       fatalError("主キーのないデータ")
     }
     
@@ -74,10 +74,12 @@ class SyncronizableObject: Object {
           // クラウド側が削除されていたら物理削除
           realm.delete(object)
           object.deleteFromCloud(record: record)
+          slog("\(self.recordType) \(primaryKeyValue) deleted")
         } else {
           // 削除以外は更新
           realm.add(object, update: true)
           object.updateFromCloud(record: record)
+          slog("\(self.recordType) \(primaryKeyValue) modified")
         }
         try realm.commitWrite()
         return true
@@ -89,6 +91,7 @@ class SyncronizableObject: Object {
         realm.add(object)
         object.updateFromCloud(record: record)
         try realm.commitWrite()
+        slog("\(self.recordType) \(primaryKeyValue) added")
       }
     }
     return false
@@ -197,16 +200,16 @@ class DBPhoto: SyncronizableObject {
   
   // レコードからオブジェクトを生成する
   override static func from(record: CKRecord) -> DBPhoto? {
-    let entry = DBPhoto()
+    let photo = DBPhoto()
     let id = record.recordID.recordName
     guard let deleted = record["deleted"] as? Int,
       let modified = record["modified"] as? Date else {
         return nil
     }
-    entry.id = id
-    entry.deleted = deleted == 1
-    entry.modified = modified
-    return entry
+    photo.id = id
+    photo.deleted = deleted == 1
+    photo.modified = modified
+    return photo
   }
   
   // クラウドからダウンロードされたレコードでオブジェクトが更新されたときに呼び出される

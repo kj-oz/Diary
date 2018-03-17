@@ -12,6 +12,13 @@ import RealmSwift
 import CloudKit
 import UIKit
 
+/// ログを出力する
+///
+/// - parameter text: ログに記入する文字列
+public func slog(_ text: String) {
+  print("[Diary] " + text)
+}
+
 /// 新たな日記セットのロード時の処理を受け持つデリゲート
 protocol DiaryManagerDelegate {
   func entriesBeginLoading()

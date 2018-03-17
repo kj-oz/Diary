@@ -74,6 +74,7 @@ class SyncHandler {
       return
     }
     
+    slog("Start synchronizing")
     photoSync = TableSyncHandler(context: context)
     entrySync = TableSyncHandler(context: context)
 
@@ -147,6 +148,7 @@ class TableSyncHandler<T: SyncronizableObject> {
   func downloadRecords(completionHandler: @escaping () -> (), inputCursor: CKQueryCursor? = nil) {
     let operation: CKQueryOperation
     state = .startDownloading
+    slog("Start downloading " + T.recordType)
     
     if let cursor = inputCursor {
       // 結果数が多い場合の続きのクエリ
@@ -174,6 +176,7 @@ class TableSyncHandler<T: SyncronizableObject> {
       } else {
         self?.state = .endDownloading
         completionHandler()
+        slog("End downloading " + T.recordType)
       }
     }
     
@@ -196,7 +199,8 @@ class TableSyncHandler<T: SyncronizableObject> {
     let operation = CKModifyRecordsOperation(recordsToSave: localUpdates, recordIDsToDelete: localDeletes)
     operation.savePolicy = .changedKeys
     state = .startUploading
-    
+    slog("Start uploading " + T.recordType)
+
     operation.modifyRecordsCompletionBlock = { [weak self] _, _, error in
       if let error = error {
         self?.handleOperationError(error: error, completionHandler: completionHandler, retry: {
@@ -206,6 +210,7 @@ class TableSyncHandler<T: SyncronizableObject> {
       }
       self?.state = .endUploading
       completionHandler()
+      slog("End uploading " + T.recordType)
     }
     
     context.database.add(operation)
@@ -222,6 +227,7 @@ class TableSyncHandler<T: SyncronizableObject> {
     if let ckerror = error as? CKError,
         let retryAfter = ckerror.userInfo[CKErrorRetryAfterKey] as? NSNumber {
       DispatchQueue.main.asyncAfter(deadline: .now() + retryAfter.doubleValue) {
+        slog("Retring " + T.recordType)
         retry()
       }
     } else {

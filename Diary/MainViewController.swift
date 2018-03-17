@@ -58,6 +58,7 @@ class MainViewController: UIViewController {
     dm.checkCloudConnection({ status, error in
       if error != nil || status == .noAccount {
         print("▶ hasConnection: false")
+        slog("Not login to iCloud")
         self.showPrompt = true
       } else {
         print("▶ hasConnection: true")
