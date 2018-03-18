@@ -215,11 +215,16 @@ class DBPhoto: SyncronizableObject {
   // クラウドからダウンロードされたレコードでオブジェクトが更新されたときに呼び出される
   override func updateFromCloud(record: CKRecord) {
     let id = record.recordID.recordName
-    let path = DiaryManager.docDir.appendingFormat("/%@/%@.jpg", String(id.prefix(8)), String(id.suffix(3)))
+    let datePath = DiaryManager.docDir.appendingFormat("/%@", String(id.prefix(8)))
+    let path = datePath.appendingFormat("/%@.jpg", String(id.suffix(3)))
     let asset = record["photo"] as! CKAsset
     let fm = FileManager.default
-    if fm.fileExists(atPath: path, isDirectory: nil) {
-      try? fm.removeItem(atPath: path)
+    if fm.fileExists(atPath: datePath) {
+      if fm.fileExists(atPath: path, isDirectory: nil) {
+        try? fm.removeItem(atPath: path)
+      }
+    } else {
+      try? fm.createDirectory(atPath: datePath, withIntermediateDirectories: false, attributes: nil)
     }
     try? fm.copyItem(atPath: asset.fileURL.path, toPath: path)
   }
