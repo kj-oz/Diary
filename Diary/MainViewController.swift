@@ -43,8 +43,10 @@ class MainViewController: UIViewController {
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     print("▷ viewDidLoad")
+
+    setupEnterForegroundEvent()
+    
     tableView.delegate = self
     tableView.dataSource = self
     searchBar.delegate = self
