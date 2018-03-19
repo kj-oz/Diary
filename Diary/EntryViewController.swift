@@ -22,7 +22,7 @@ class EntryViewController: UICollectionViewController {
   
   /// 左ボタン（＜/キャンセル）タップ時
   @IBAction func leftButtonTapped(_ sender: Any) {
-    if isEditable {
+    if isEditable && !isNew {
       initializeData()
       isEditable = false
     } else {
@@ -39,12 +39,18 @@ class EntryViewController: UICollectionViewController {
         try entry.updatePhotos(addedImages: addedImages, deletedPhotos: deletedPhotos)
         try entry.updateData(text: textCell.textView.text, photos: photos.joined(separator: ","))
         DiaryManager.shared.sync()
-        initializeData()
-        updated = true
+        if isNew {
+          performSegue(withIdentifier: "HideEntryDetail", sender: self)
+        } else {
+          initializeData()
+          updated = true
+        }
       } catch {
         let alert = UIAlertController(title:"百年日記", message: "編集内容の保存に失敗しました", preferredStyle: UIAlertControllerStyle.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alert.addAction(ok)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = view.frame
         self.present(alert, animated: true, completion: nil)
       }
     }
@@ -67,6 +73,9 @@ class EntryViewController: UICollectionViewController {
   
   /// 記事が更新されたかどうか
   var updated = false
+  
+  /// 新規の記事か既存の編集か
+  var isNew = false
   
   /// 写真セクションのヘッダー（＋ーのボタンを持つ）
   weak var photoHeader: EntryPhotoHeader?
@@ -110,7 +119,8 @@ class EntryViewController: UICollectionViewController {
       + "\(cal.component(.month, from: date))月\(cal.component(.day, from: date))日"
     photoDir = DiaryManager.docDir.appending("/" + entry.date)
     initializeData()
-    isEditable = (entry.data == nil)
+    isNew = (entry.data == nil)
+    isEditable = isNew
   }
   
   /// 編集内容を保持するデータを初期化する

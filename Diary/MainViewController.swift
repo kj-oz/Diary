@@ -87,6 +87,8 @@ class MainViewController: UIViewController {
       let alert = UIAlertController(title:"百年日記", message: "iCloudへサインインしてください。またiCloud DriveをONにしてください。", preferredStyle: UIAlertControllerStyle.alert)
       let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
       alert.addAction(ok)
+      alert.popoverPresentationController?.sourceView = view
+      alert.popoverPresentationController?.sourceRect = view.frame
       self.present(alert, animated: true, completion: nil)
 
       showPrompt = false
@@ -123,6 +125,8 @@ class MainViewController: UIViewController {
       print("キャンセル")
     })
     alert.addAction(cancel)
+    alert.popoverPresentationController?.sourceView = view
+    alert.popoverPresentationController?.sourceRect = conditionButton.frame
     self.present(alert, animated: true, completion: nil)
   }
   
