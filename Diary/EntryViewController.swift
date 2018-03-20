@@ -39,11 +39,11 @@ class EntryViewController: UICollectionViewController {
         try entry.updatePhotos(addedImages: addedImages, deletedPhotos: deletedPhotos)
         try entry.updateData(text: textCell.textView.text, photos: photos.joined(separator: ","))
         DiaryManager.shared.sync()
+        updated = true
         if isNew {
           performSegue(withIdentifier: "HideEntryDetail", sender: self)
         } else {
           initializeData()
-          updated = true
         }
       } catch {
         let alert = UIAlertController(title:"百年日記", message: "編集内容の保存に失敗しました", preferredStyle: UIAlertControllerStyle.alert)
