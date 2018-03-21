@@ -214,7 +214,7 @@ extension EntryViewController {
       }
       return photoHeader
     default:
-      assert(false, "Unexpected element kind")
+      fatalError("Unexpected element kind")
     }
   }
   
