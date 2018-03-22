@@ -220,6 +220,7 @@ extension MainViewController: UISearchBarDelegate {
     if let searchText = searchBar.text {
       dm.searchString = searchText
       UserDefaults.standard.set(searchText, forKey: "search")
+      searchBar.resignFirstResponder()
     }
   }
 }
