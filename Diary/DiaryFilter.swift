@@ -47,6 +47,8 @@ class DiaryFilter {
   
   /// 記事に含まれるべき検索ワード
   var keywords: [String] = []
+  
+  var maxEntry = 100
 
   /// フィルター対象値の文字列表現
   var valueString: String {
@@ -324,6 +326,10 @@ class DiaryFilter {
           return
         }
         results.append(Entry(date: date))
+        if results.count == maxEntry {
+          stop = true
+          return
+        }
       }
     }
     return results
@@ -351,6 +357,10 @@ class DiaryFilter {
           results.append(Entry(date: date))
         } else {
           results.append(Entry(paddingDate: String(target)))
+        }
+        if results.count == maxEntry {
+          stop = true
+          return
         }
         target -= 1
       }
@@ -384,6 +394,10 @@ class DiaryFilter {
           results.append(Entry(date: date))
         } else {
           results.append(Entry(paddingDate: String(target)))
+        }
+        if results.count == maxEntry {
+          stop = true
+          return
         }
         target -= (target % 100 == 1 ? 89 : 1)
       }
@@ -450,6 +464,10 @@ class DiaryFilter {
           }
         }
         results.append(Entry(date: date, weekNumber: wn))
+        if results.count == maxEntry {
+          stop = true
+          return
+        }
       }
     }
     return results
@@ -473,6 +491,10 @@ class DiaryFilter {
           return
         }
         results.append(Entry(date: date))
+        if results.count == maxEntry {
+          stop = true
+          return
+        }
       }
     }
     return results
@@ -485,7 +507,25 @@ class DiaryFilter {
   func applyTo(data: Results<DBEntry>) -> Results<DBEntry> {
     var filtered: Results<DBEntry>
     switch type {
-    case .年, .年月, .年月日:
+    case .年月日:
+      let cal = Calendar.current
+      var comps = DateComponents()
+      comps.year = value / 10000
+      let md = value % 10000
+      comps.month = md / 100
+      comps.day = md % 100
+      let origin = cal.date(from: comps)!
+      // 年月日が指定された場合、前後10日＋指定日の21日を選択する
+      let from = cal.date(byAdding: .day, value: -10, to: origin)!
+      let to = cal.date(byAdding: .day, value: 11, to: origin)!
+      let fromStr = DiaryManager.dateFormatter.string(from: from).prefix(6)
+      let toStr = DiaryManager.dateFormatter.string(from: to).prefix(6)
+      if fromStr == toStr {
+        filtered = data.filter("date BEGINSWITH %@", fromStr)
+      } else {
+        filtered = data.filter("date BEGINSWITH %@ OR date BEGINSWITH %@", fromStr, toStr)
+      }
+    case .年, .年月:
       filtered = data.filter("date BEGINSWITH %@", String(value))
     case .月日, .日:
       filtered = data.filter("date ENDSWITH %@", String(value))
