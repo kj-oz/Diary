@@ -32,6 +32,8 @@ protocol DiaryManagerDelegate {
 /// フィルターが週の状態では第1週の1/1より前、第53週の12/31より後は、空白の日付として扱う
 /// 20年に一度程度ある第54週の12/31は翌年の第1週として扱う
 class DiaryManager {
+  /// 祝日判定ライブラリ
+  static let ccl = CalculateCalendarLogic()
   
   /// サンドボックスのDocumentsディレクトリのフルパス
   static let docDir: String = {
@@ -87,6 +89,19 @@ class DiaryManager {
       }
     }
     return currWeek
+  }
+  
+  /// 与えられた年月日文字列のさす日付が祝日かどうかを判定する
+  ///
+  /// - parameter date: 年月日文字列
+  /// - returns: 祝日かどうか
+  static func isHoliday(_ date: String) -> Bool {
+    let yaer = Int(date.prefix(4))!
+    let md = date.suffix(4)
+    let month = Int(md.prefix(2))!
+    let day = Int(md.suffix(2))!
+    
+    return ccl.judgeJapaneseHoliday(year: yaer, month: month, day: day)
   }
   
   /// 唯一のインスタンス

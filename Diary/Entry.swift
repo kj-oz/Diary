@@ -25,6 +25,9 @@ class Entry {
   /// 存在しない日の穴埋めのためのエントリー
   var padding = false
   
+  /// 祝日かどうか
+  var holiday = false
+  
   /// DBに登録されている内容
   var data: DBEntry?
   
@@ -50,6 +53,9 @@ class Entry {
         dateStr = String(weekNumber == 1 ? year + 1 : year - 1)
       }
     }
+    if !padding {
+      holiday = DiaryManager.isHoliday(dateStr)
+    }
     self.date = dateStr
   }
   
@@ -71,6 +77,7 @@ class Entry {
     wn = data.wn
     wd = data.wd
     self.data = data
+    holiday = DiaryManager.isHoliday(date)
   }
   
   /// DBレコード部分を更新する

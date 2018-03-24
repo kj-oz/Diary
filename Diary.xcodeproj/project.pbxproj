@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3103D0882065EFBA001DCAC9 /* CalculateCalendarLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3103D0872065EFBA001DCAC9 /* CalculateCalendarLogic.swift */; };
 		310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310C4BA41FE958C600A13D70 /* EntryCell.swift */; };
 		312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC5272037F14D00224A10 /* EntryViewController.swift */; };
 		312DC52C2037F1AE00224A10 /* EntryPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3103D0872065EFBA001DCAC9 /* CalculateCalendarLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculateCalendarLogic.swift; sourceTree = "<group>"; };
 		310C4BA41FE958C600A13D70 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		312DC5272037F14D00224A10 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhotoCell.swift; sourceTree = "<group>"; };
@@ -84,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3103D0862065EE8E001DCAC9 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				3103D0872065EFBA001DCAC9 /* CalculateCalendarLogic.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		316C7BB72046E8F600B017D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +105,7 @@
 		31CAC5B21FC31A5300EC7910 = {
 			isa = PBXGroup;
 			children = (
+				3103D0862065EE8E001DCAC9 /* Library */,
 				31CAC5D01FC31C0B00EC7910 /* Realm.framework */,
 				31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */,
 				31CAC5BD1FC31A5400EC7910 /* Diary */,
@@ -237,6 +248,7 @@
 				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
 				316C7BBD204A24FC00B017D9 /* DBEntry.swift in Sources */,
 				310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */,
+				3103D0882065EFBA001DCAC9 /* CalculateCalendarLogic.swift in Sources */,
 				31FB5879202C89FB007ED042 /* DiaryFilter.swift in Sources */,
 				312DC530203BB9EA00224A10 /* EntryTextCell.swift in Sources */,
 				312DC52C2037F1AE00224A10 /* EntryPhotoCell.swift in Sources */,

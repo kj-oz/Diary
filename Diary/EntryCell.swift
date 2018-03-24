@@ -51,7 +51,11 @@ class EntryCell: UITableViewCell {
       backgroundColor = UIColor.lightGray
       return
     }
-    
+    let color = dateColor(of: entry)
+    year.textColor = color
+    date.textColor = color
+    weekday.textColor = color
+
     if let data = entry.data {
       entryText.text = data.text
       let photos = data.photos.split(separator: ",")
@@ -61,6 +65,19 @@ class EntryCell: UITableViewCell {
         photo.contentMode = .scaleAspectFill
         photo.image = UIImage(contentsOfFile: photoPath)
       }
+    }
+  }
+  
+  /// 日付部の文字の色を返す
+  ///
+  /// - parameter entry: 記事
+  /// - returns: 日付部の文字の色
+  private func dateColor(of entry: Entry) -> UIColor {
+    if entry.padding {
+      return UIColor.black
+    } else {
+      return entry.wd == 1 || entry.holiday ? UIColor.red :
+        entry.wd == 7 ? UIColor.blue : UIColor.black
     }
   }
 }
