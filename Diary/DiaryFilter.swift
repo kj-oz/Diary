@@ -152,7 +152,7 @@ class DiaryFilter {
     }
     needDb = keywords.count > 0
     for (index, keyword) in keywords.enumerated() {
-      if keyword == "*" {
+      if keyword == "*" || keyword == "＊" {
         keywords.remove(at: index)
         break
       }
