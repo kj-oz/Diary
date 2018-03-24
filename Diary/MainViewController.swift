@@ -184,7 +184,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource {
   // 各セクションの行数を返す
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return min(entries.count, dm.filter.max)
+    return min(entries.count, dm.filter.maxEntry)
   }
   
   // セクション数を返す
