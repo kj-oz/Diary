@@ -32,11 +32,6 @@ class MainViewController: UIViewController {
   /// 検索された全記事
   var entries: [Entry] = []
   
-  //var topRow = 0
-  
-  /// 表示する最大行数
-  var maxRow = 100
-  
   /// iCloudへのログインを促すダイアログを表示するかどうか
   var showPrompt = false
   
@@ -189,7 +184,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource {
   // 各セクションの行数を返す
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return min(entries.count, maxRow)
+    return min(entries.count, dm.filter.max)
   }
   
   // セクション数を返す

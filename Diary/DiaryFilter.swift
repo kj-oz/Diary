@@ -48,7 +48,8 @@ class DiaryFilter {
   /// 記事に含まれるべき検索ワード
   var keywords: [String] = []
   
-  var maxEntry = 100
+  /// 最大の記事数（日付リストアップ時の制限）
+  var maxEntry = 366
 
   /// フィルター対象値の文字列表現
   var valueString: String {
