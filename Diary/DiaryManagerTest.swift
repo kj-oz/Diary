@@ -69,48 +69,48 @@ extension DiaryManager {
     filter.earliestDate = cal.date(byAdding: .year, value: -18, to: Date())!
     var entries: [Entry] = []
     
-    comp.year = 2020
-    comp.month = 2
-    comp.day = 28
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .月日, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
-
-    comp.year = 2020
-    comp.month = 2
-    comp.day = 29
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .月日, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
-
-    comp.year = 2020
-    comp.month = 1
-    comp.day = 31
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .日, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
-
-    filter.earliestDate = cal.date(byAdding: .year, value: -1, to: Date())!
-    comp.year = 2018
-    comp.month = 1
-    comp.day = 1
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .曜日, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
-
-    comp.year = 2018
-    comp.month = 1
-    comp.day = 1
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .毎日, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
-    
-    filter.earliestDate = Date(timeIntervalSinceReferenceDate: 0)
+//    comp.year = 2020
+//    comp.month = 2
+//    comp.day = 28
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .月日, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
+//
+//    comp.year = 2020
+//    comp.month = 2
+//    comp.day = 29
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .月日, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
+//
+//    comp.year = 2020
+//    comp.month = 1
+//    comp.day = 31
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .日, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
+//
+//    filter.earliestDate = cal.date(byAdding: .year, value: -1, to: Date())!
+//    comp.year = 2018
+//    comp.month = 1
+//    comp.day = 1
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .曜日, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
+//
+//    comp.year = 2018
+//    comp.month = 1
+//    comp.day = 1
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .毎日, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
+//
+//    filter.earliestDate = Date(timeIntervalSinceReferenceDate: 0)
     comp.year = 2017
     comp.month = 12
     comp.day = 2
@@ -175,13 +175,13 @@ extension DiaryManager {
     entries = filter.listDates()
     printDates(dates: entries)
     
-    comp.year = 2000
-    comp.month = 12
-    comp.day = 31
-    filter.originDate = cal.date(from: comp)!
-    filter.set(type: .週, searchString: "")
-    entries = filter.listDates()
-    printDates(dates: entries)
+//    comp.year = 2000
+//    comp.month = 12
+//    comp.day = 31
+//    filter.originDate = cal.date(from: comp)!
+//    filter.set(type: .週, searchString: "")
+//    entries = filter.listDates()
+//    printDates(dates: entries)
   }
   
   private func printDates(dates: [Entry]) {

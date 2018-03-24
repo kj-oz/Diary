@@ -151,8 +151,7 @@ class DiaryManager {
     syncHandler = SyncHandler()
     
     print(DiaryManager.docDir)
-    
-    //test()
+    // test()
   }
   
   /// iCloudにログインしているかチェックする

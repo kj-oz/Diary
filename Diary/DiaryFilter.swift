@@ -418,12 +418,13 @@ class DiaryFilter {
     
     // 検索を実行する
     // enumerateDates仕様：
-    // comps.weekOfYear と comps.weekday 両方は指定できない
-    // （comps.weekOfYear を指定すると、startingAfter の曜日で検索される）
     // comps.weekOfYearに53を指定すると、翌年の第1週ではない本当の53週の日付しか返ってこない
     // ⇒ 第1週で検索し、前週が53週だったら前週の日付に訂正
-    // startingAfterの週番号とcomps.weekOfYear が異なっているとstartingAfterの曜日が無視され、
-    // callbackには日曜日の日付が渡されてくる ⇒ startingAfter が本当の53週だったら曜日分シフト
+    // 以下は、シュミレータのみ、実機では問題ないため、無視
+    // 　comps.weekOfYear と comps.weekday 両方は指定できない
+    // 　（comps.weekOfYear を指定すると、startingAfter の曜日で検索される）
+    // 　startingAfterの週番号とcomps.weekOfYear が異なっているとstartingAfterの曜日が無視され、
+    // 　callbackには日曜日の日付が渡されてくる ⇒ startingAfter が本当の53週だったら曜日分シフト
     var results: [Entry] = []
     var comps = DateComponents()
     if wn == 53 {
@@ -431,14 +432,12 @@ class DiaryFilter {
     } else {
       comps.weekOfYear = wn
     }
+    comps.weekday = wd
+    
     let fwn = cal.component(.weekOfYear, from: originDate)
     let fwd = cal.component(.weekday, from: originDate)
     var startDate = originDate
-    var shift = 0
-    if fwn != comps.weekOfYear {
-      // 開始日と指定の週番号が一致しない場合は、検索結果は日曜なので、shift分進める
-      shift = wd - 1
-    } else {
+    if fwn == comps.weekOfYear {
       if fwd != wd {
         startDate = cal.date(byAdding: .day, value: wd - fwd, to: originDate)!
       }
@@ -452,9 +451,6 @@ class DiaryFilter {
         if date < earliestDate {
           stop = true
           return
-        }
-        if shift > 0 {
-          date = cal.date(byAdding: .day, value: shift, to: date)!
         }
         if wn == 53 {
           let aWeekAgo = cal.date(byAdding: .day, value: -7, to: date)!
