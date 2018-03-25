@@ -203,7 +203,7 @@ public struct CalculateCalendarLogic {
                 return true
 
             //2月11日: 建国記念の日
-            case (_, 2, 11, _):
+            case (_, 2, 11, _) where year >= 1967:
                 return true
             
             //2月12日: 振替休日
