@@ -66,7 +66,7 @@ class MainViewController: UIViewController {
     // dm.insertData()
     
     // 各種設定値の読み込み
-    let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19980701"
+    let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19500101"
     dm.filter.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
     dm.filterType = FilterType(rawValue: filterString)!

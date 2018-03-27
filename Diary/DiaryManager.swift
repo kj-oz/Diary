@@ -146,8 +146,8 @@ class DiaryManager {
   private init() {
     let cal = Calendar.current
     filter.originDate = cal.startOfDay(for: Date())
-    filter.earliestDate = Date(timeIntervalSinceReferenceDate: 0)
-    
+    filter.earliestDate = DiaryManager.dateFormatter.date(from: "19500101")!
+
     syncHandler = SyncHandler()
     
     print(DiaryManager.docDir)
