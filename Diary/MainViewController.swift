@@ -29,11 +29,16 @@ class MainViewController: UIViewController {
   /// 日記マネージャ
   var dm: DiaryManager!
   
+  /// パスワードマネージャ
+  var pm: PwdManager!
+  
   /// 検索された全記事
   var entries: [Entry] = []
   
   /// iCloudへのログインを促すダイアログを表示するかどうか
   var showPrompt = false
+  
+  var requiresPwd = false
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
@@ -73,10 +78,20 @@ class MainViewController: UIViewController {
     dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
 
     update()
+    pm = PwdManager.shared
+    requiresPwd = pm.password != nil
   }
   
   // 画面が表示された直後に呼び出される
   override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    print("▷ viewDidAppear(Main)")
+    if requiresPwd {
+      pm.showDialog(self) {
+        self.requiresPwd = false
+      }
+    }
+    
     if showPrompt {
       // iCloudへログインするよう促す
       let alert = UIAlertController(title:"百年日記", message: "iCloudへサインインしてください。またiCloud DriveをONにしてください。", preferredStyle: UIAlertControllerStyle.alert)
@@ -100,8 +115,9 @@ class MainViewController: UIViewController {
   
   /// アプリ・フォアグラウンド化時に、クラウドとの同期を行う
   @objc func applicationWillEnterForeground() {
-    print("▷ applicationWillEnterForeground")
+    print("▷ applicationWillEnterForeground(Main)")
     dm.sync()
+    pm.showDialog(self, completion: nil)
   }
   
   // 条件ボタンタップ時の処理

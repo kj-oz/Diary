@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3103D0882065EFBA001DCAC9 /* CalculateCalendarLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3103D0872065EFBA001DCAC9 /* CalculateCalendarLogic.swift */; };
 		310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310C4BA41FE958C600A13D70 /* EntryCell.swift */; };
+		31291B84206D209800662EA7 /* PwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31291B83206D209800662EA7 /* PwdViewController.swift */; };
+		31291B86206D2E6500662EA7 /* PwdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31291B85206D2E6500662EA7 /* PwdManager.swift */; };
 		312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC5272037F14D00224A10 /* EntryViewController.swift */; };
 		312DC52C2037F1AE00224A10 /* EntryPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */; };
 		312DC52E2037F20700224A10 /* EntryPhotoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312DC52D2037F20700224A10 /* EntryPhotoHeader.swift */; };
@@ -49,6 +51,8 @@
 /* Begin PBXFileReference section */
 		3103D0872065EFBA001DCAC9 /* CalculateCalendarLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculateCalendarLogic.swift; sourceTree = "<group>"; };
 		310C4BA41FE958C600A13D70 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
+		31291B83206D209800662EA7 /* PwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwdViewController.swift; sourceTree = "<group>"; };
+		31291B85206D2E6500662EA7 /* PwdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwdManager.swift; sourceTree = "<group>"; };
 		312DC5272037F14D00224A10 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		312DC52B2037F1AE00224A10 /* EntryPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhotoCell.swift; sourceTree = "<group>"; };
 		312DC52D2037F20700224A10 /* EntryPhotoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPhotoHeader.swift; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 				31FB5878202C89FB007ED042 /* DiaryFilter.swift */,
 				310C4BA41FE958C600A13D70 /* EntryCell.swift */,
 				31473C002012285E0089B23C /* DiaryManagerTest.swift */,
+				31291B83206D209800662EA7 /* PwdViewController.swift */,
+				31291B85206D2E6500662EA7 /* PwdManager.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -246,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */,
+				31291B86206D2E6500662EA7 /* PwdManager.swift in Sources */,
 				316C7BBD204A24FC00B017D9 /* DBEntry.swift in Sources */,
 				310C4BA51FE958C600A13D70 /* EntryCell.swift in Sources */,
 				3103D0882065EFBA001DCAC9 /* CalculateCalendarLogic.swift in Sources */,
@@ -256,6 +263,7 @@
 				31473C012012285E0089B23C /* DiaryManagerTest.swift in Sources */,
 				316C7BBB20483F9500B017D9 /* SyncHandler.swift in Sources */,
 				312DC5282037F14D00224A10 /* EntryViewController.swift in Sources */,
+				31291B84206D209800662EA7 /* PwdViewController.swift in Sources */,
 				312DC52E2037F20700224A10 /* EntryPhotoHeader.swift in Sources */,
 				31CAC5C11FC31A5400EC7910 /* MainViewController.swift in Sources */,
 				31CAC5BF1FC31A5400EC7910 /* AppDelegate.swift in Sources */,

@@ -109,10 +109,14 @@ class EntryViewController: UICollectionViewController {
   /// 1行あたりの写真の表示数
   fileprivate let itemsPerRow = 1
   
+//  var requiresPwd = false
+
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setupEnterForegroundEvent()
+
     let date = DiaryManager.dateFormatter.date(from: entry.date)!
     let cal = Calendar.current
     self.entryTitle.title = "\(cal.component(.year, from: date))年"
@@ -121,6 +125,25 @@ class EntryViewController: UICollectionViewController {
     initializeData()
     isNew = (entry.data == nil)
     isEditable = isNew
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    print("▷ viewDidAppear(Entry)")
+  }
+  
+  /// アプリがフォアグラウンド化された際のイベントの待ち受けを登録する
+  fileprivate func setupEnterForegroundEvent() {
+    let nc = NotificationCenter.default;
+    nc.addObserver(self, selector: #selector(EntryViewController.applicationWillEnterForeground),
+                   name: NSNotification.Name(rawValue: "applicationWillEnterForeground"),
+                   object: nil);
+  }
+  
+  /// アプリ・フォアグラウンド化時に、クラウドとの同期を行う
+  @objc func applicationWillEnterForeground() {
+    print("▷ applicationWillEnterForeground(Entry)")
+    PwdManager.shared.showDialog(self, completion: nil)
   }
   
   /// 編集内容を保持するデータを初期化する
