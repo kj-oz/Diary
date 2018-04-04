@@ -35,8 +35,8 @@ class PwdViewController: UIViewController {
     
     if pm.failureCount > 1 {
       countLabel.text = "連続 \(pm.failureCount) 回失敗"
-    } else {
-      countLabel.text = "\(pm.failureCount) 回失敗"
+    } else if pm.failureCount == 1 {
+      countLabel.text = "1回失敗"
     }
     if pm.failureCount == 3 {
       lock(hours: 1)
