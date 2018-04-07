@@ -16,13 +16,13 @@ public enum FilterType : String {
   case 日      // 各月 Y日
   case 曜日     // 各週 Y曜日
   case 検索     // 検索バーに入力された文字列
-  case 毎日     // 全ての日
+  case 日々     // 全ての日
   case 年      // X年の全ての日
   case 年月     // X年Y月の全ての日
   case 年月日    // X年Y月Z日の前後21日
   
   /// ユーザが選択可能な種別リスト
-  static let selectables: [FilterType] = [.月日, .週, .日, .曜日, .検索, .毎日]
+  static let selectables: [FilterType] = [.日々, .検索, .月日, .週, .日, .曜日]
 }
 
 /// 日記の記事に対するフィルタ
@@ -40,7 +40,7 @@ class DiaryFilter {
   var today: Date
   
   /// 種別
-  var type: FilterType = .毎日
+  var type: FilterType = .日々
   
   /// フィルタ対象値
   var value = 0
@@ -82,7 +82,7 @@ class DiaryFilter {
       return "\(value)日"
     case .曜日:
       return "\(cal.weekdaySymbols[value - 1])"
-    case .毎日:
+    case .日々:
       let cal = Calendar.current
       let y = cal.component(.year, from: originDate)
       let m = cal.component(.month, from: originDate)
