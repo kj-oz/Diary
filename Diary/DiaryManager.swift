@@ -130,8 +130,8 @@ class DiaryManager {
     }
   }
   
-  /// .検索の際の実際の検索条件
-  var filter = DiaryFilter()
+  /// フィルタ
+  var filter: DiaryFilter
   
   /// 日記セットが変化した際に処理を行うデリゲート
   var delegate: DiaryManagerDelegate?
@@ -144,10 +144,7 @@ class DiaryManager {
   
   /// 初期化
   private init() {
-    let cal = Calendar.current
-    filter.originDate = cal.startOfDay(for: Date())
-    filter.earliestDate = DiaryManager.dateFormatter.date(from: "19500101")!
-
+    filter = DiaryFilter()
     syncHandler = SyncHandler()
     
     print(DiaryManager.docDir)
@@ -194,6 +191,13 @@ class DiaryManager {
     }
     delegate?.entriesEndLoading(entries: entries)
     print("▷ listEntries end")
+  }
+  
+  /// 日付を更新する
+  func updateDate() {
+    if filter.updateDate() {
+      listEntries()
+    }
   }
   
   /// 検索の対象を1日後にずらす

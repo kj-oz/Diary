@@ -38,6 +38,8 @@ class MainViewController: UIViewController {
   /// iCloudへのログインを促すダイアログを表示するかどうか
   var showPrompt = false
   
+  var firstTime = true
+  
   var requiresPwd = false
   
   // ビューのロード時に呼び出される
@@ -71,24 +73,29 @@ class MainViewController: UIViewController {
     // dm.insertData()
     
     // 各種設定値の読み込み
-    let earliestDateString = UserDefaults.standard.string(forKey: "earliestDate") ?? "19500101"
-    dm.filter.earliestDate = DiaryManager.dateFormatter.date(from: earliestDateString)!
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
     dm.filterType = FilterType(rawValue: filterString)!
     dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
 
     update()
     pm = PwdManager.shared
-    requiresPwd = pm.password != nil
+  }
+  
+  // 画面が表示される直前に呼び出される
+  override func viewWillAppear(_ animated: Bool) {
+    if !firstTime {
+      dm.updateDate()
+    }
   }
   
   // 画面が表示された直後に呼び出される
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     print("▷ viewDidAppear(Main)")
-    if requiresPwd {
-      pm.showDialog(self) {
-        self.requiresPwd = false
+    if firstTime {
+      firstTime = false
+      if pm.password != nil {
+        pm.showDialog(self, completion: nil)
       }
     }
     
@@ -116,6 +123,7 @@ class MainViewController: UIViewController {
   /// アプリ・フォアグラウンド化時に、クラウドとの同期を行う
   @objc func applicationWillEnterForeground() {
     print("▷ applicationWillEnterForeground(Main)")
+    dm.updateDate()
     dm.sync()
     pm.showDialog(self, completion: nil)
   }

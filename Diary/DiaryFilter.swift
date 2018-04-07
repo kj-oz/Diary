@@ -29,12 +29,15 @@ public enum FilterType : String {
 class DiaryFilter {
   /// 各月の最大日数（1月は[1]に保持）
   static let maxDaysOfMonth = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+  /// 取り扱う最古の日
+  static let earliestDate = DiaryManager.dateFormatter.date(from: "19500101")!
   
   /// 検索の起点となる（最近の）日
-  var originDate = Date()
+  var originDate: Date
   
-  /// 取り扱う最古の日
-  var earliestDate = Date()
+  /// 今日
+  var today: Date
   
   /// 種別
   var type: FilterType = .毎日
@@ -88,6 +91,12 @@ class DiaryFilter {
     default:
       return ""
     }
+  }
+  
+  init() {
+    let cal = Calendar.current
+    today = cal.startOfDay(for: Date())
+    originDate = today
   }
   
   /// フィルタ種別と起点日あるいは検索文字列に応じてフィルタの内容を更新する
@@ -159,13 +168,33 @@ class DiaryFilter {
     }
   }
   
+  /// 内部で持つ日付（当日）を更新する
+  /// 当日を最上部に表示中であれば、その日付も更新する
+  ///
+  /// - returns: 表示中の日記に変化があればtrue、なければfalse
+  func updateDate() -> Bool {
+    let cal = Calendar.current
+    let now = cal.startOfDay(for: Date())
+    if now > today {
+      let oldToday = today
+      today = now
+      if originDate == oldToday {
+        originDate = today
+        if FilterType.selectables.contains(type) && type != .検索 {
+          set(type: type)
+          return true
+        }
+      }
+    }
+    return false
+  }
+  
   /// 検索の起点を当日にする
   /// - description:
   /// reset, movePrev, moveNext は、インターフェース上の操作が可能な月日、週、日、曜日にのみ対応する
   func reset() {
+    originDate = today
     if FilterType.selectables.contains(type) && type != .検索 {
-      let cal = Calendar.current
-      originDate = cal.startOfDay(for: Date())
       set(type: type)
     }
   }
@@ -322,7 +351,7 @@ class DiaryFilter {
     
     cal.enumerateDates(startingAfter: startDate, matching: comps, matchingPolicy: .strict, repeatedTimePolicy: .first, direction: .backward) { (date, match, stop) in
       if let date = date {
-        if date < earliestDate {
+        if date < DiaryFilter.earliestDate {
           stop = true
           return
         }
@@ -350,7 +379,7 @@ class DiaryFilter {
     var target = cal.component(.year, from: originDate)
     cal.enumerateDates(startingAfter: startDate, matching: comps, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .backward) { (date, match, stop) in
       if let date = date {
-        if date < earliestDate {
+        if date < DiaryFilter.earliestDate {
           stop = true
           return
         }
@@ -383,7 +412,7 @@ class DiaryFilter {
     let currentValue = target
     cal.enumerateDates(startingAfter: startDate, matching: comps, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .backward) { (date, match, stop) in
       if let date = date {
-        if date < earliestDate {
+        if date < DiaryFilter.earliestDate {
           stop = true
           return
         }
@@ -448,7 +477,7 @@ class DiaryFilter {
     
     cal.enumerateDates(startingAfter: startDate, matching: comps, matchingPolicy: .nextTimePreservingSmallerComponents, repeatedTimePolicy: .first, direction: .backward) { (date, match, stop) in
       if var date = date {
-        if date < earliestDate {
+        if date < DiaryFilter.earliestDate {
           stop = true
           return
         }

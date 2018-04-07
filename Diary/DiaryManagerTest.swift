@@ -66,7 +66,6 @@ extension DiaryManager {
   func test() {
     let cal = Calendar.current
     var comp = DateComponents()
-    filter.earliestDate = cal.date(byAdding: .year, value: -18, to: Date())!
     var entries: [Entry] = []
     
 //    comp.year = 2020
