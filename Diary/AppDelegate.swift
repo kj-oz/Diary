@@ -19,3 +19,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
+let appTitle = "百年日記"
+
+/// OKボタン一つの確認画面を表示する
+///
+/// - parameter viewConroller 表示中のビューコントローラ
+/// - parameter message メッセージ文字列
+/// - parameter handler ボタンの押下後に実行されるハンドラ
+func alert(viewController: UIViewController, message: String, handler: (()->Void)? = nil) {
+  let alert = UIAlertController(title:appTitle, message: message, preferredStyle: UIAlertControllerStyle.alert)
+  let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { _ in
+    handler?()
+  }
+  alert.addAction(ok)
+  alert.popoverPresentationController?.sourceView = viewController.view
+  alert.popoverPresentationController?.sourceRect = viewController.view.frame
+  viewController.present(alert, animated: true, completion: nil)
+}
+
+/// OKボタン、キャンセルボタンの確認画面を表示する
+///
+/// - parameter viewConroller 表示中のビューコントローラ
+/// - parameter message メッセージ文字列
+/// - parameter handler OKボタンの押下後に実行されるハンドラ
+func confirm(viewController: UIViewController, message: String, handler: (()->Void)? = nil) {
+  let alert = UIAlertController(title:appTitle, message: message, preferredStyle: UIAlertControllerStyle.alert)
+  let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { _ in
+    handler?()
+  }
+  alert.addAction(ok)
+  let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: nil)
+  alert.addAction(cancel)
+
+  alert.popoverPresentationController?.sourceView = viewController.view
+  alert.popoverPresentationController?.sourceRect = viewController.view.frame
+  viewController.present(alert, animated: true, completion: nil)
+}
+

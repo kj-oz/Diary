@@ -101,13 +101,8 @@ class MainViewController: UIViewController {
     
     if showPrompt {
       // iCloudへログインするよう促す
-      let alert = UIAlertController(title:"百年日記", message: "iCloudへサインインしてください。またiCloud DriveをONにしてください。", preferredStyle: UIAlertControllerStyle.alert)
-      let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-      alert.addAction(ok)
-      alert.popoverPresentationController?.sourceView = view
-      alert.popoverPresentationController?.sourceRect = view.frame
-      self.present(alert, animated: true, completion: nil)
-
+      alert(viewController: self,
+            message: "iCloudへサインインしてください。またiCloud DriveをONにしてください。")
       showPrompt = false
     }
   }
@@ -161,13 +156,15 @@ class MainViewController: UIViewController {
     update()
   }
   
-  // 記事詳細画面から戻ってきた
-  @IBAction func backFromEntryView(_ segue: UIStoryboardSegue) {
-    if let vc = (segue.source as? EntryViewController), vc.updated {
-      if let indexPath = tableView.indexPathForSelectedRow {
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
+  // 子画面から戻ってきた
+  @IBAction func backToMainView(_ segue: UIStoryboardSegue) {
+    if let id = segue.identifier, id == "HideEntryDetail" {
+      if let vc = (segue.source as? EntryViewController), vc.updated {
+        if let indexPath = tableView.indexPathForSelectedRow {
+          tableView.beginUpdates()
+          tableView.reloadRows(at: [indexPath], with: .automatic)
+          tableView.endUpdates()
+        }
       }
     }
   }
@@ -181,8 +178,12 @@ class MainViewController: UIViewController {
   // segueによる移動の直前
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let nvc = segue.destination as! UINavigationController
-    
-    (nvc.viewControllers[0] as! EntryViewController).entry = entries[(tableView.indexPathForSelectedRow?.row)!]
+    switch segue.identifier! {
+    case "ShowEntryView":
+        (nvc.viewControllers[0] as! EntryViewController).entry = entries[(tableView.indexPathForSelectedRow?.row)!]
+    default:
+      break
+    }
   }
 
   /// 日付設定バー等の表示を更新する

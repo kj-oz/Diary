@@ -26,7 +26,6 @@ class PwdManager {
   /// 初期化
   private init() {
     password = UserDefaults.standard.string(forKey: "pwd")
-    password = "waj"
     failureCount = UserDefaults.standard.integer(forKey: "pwdFailCount")
     lastFailureTime = UserDefaults.standard.object(forKey: "pwdLastFailureTime") as? Date
   }
