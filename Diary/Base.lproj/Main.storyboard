@@ -432,7 +432,7 @@
                         <outlet property="entryTitle" destination="2R7-Ce-HnY" id="cNp-Uj-zIM"/>
                         <outlet property="leftButton" destination="GIe-GI-Jfw" id="nYZ-if-Jsb"/>
                         <outlet property="rightButton" destination="RBg-rc-g66" id="iAS-8S-9id"/>
-                        <segue destination="tZk-Fb-mu1" kind="unwind" unwindAction="backToMainView:" id="m3G-nm-kYb"/>
+                        <segue destination="tZk-Fb-mu1" kind="unwind" identifier="HideEntryDetail" unwindAction="backToMainView:" id="m3G-nm-kYb"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V5o-Q7-5j4" userLabel="First Responder" sceneMemberID="firstResponder"/>

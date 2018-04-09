@@ -179,7 +179,7 @@ class MainViewController: UIViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let nvc = segue.destination as! UINavigationController
     switch segue.identifier! {
-    case "ShowEntryView":
+    case "ShowEntryDetail":
         (nvc.viewControllers[0] as! EntryViewController).entry = entries[(tableView.indexPathForSelectedRow?.row)!]
     default:
       break

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+/// パスワードを管理するシングルトン・クラス
 class PwdManager {
   /// 唯一のインスタンス
   static var shared = PwdManager()
@@ -45,7 +46,7 @@ class PwdManager {
   }
   
   func showDialog(_ parent: UIViewController, completion: (()->Void)?) {
-    if password != nil {
+    if let password = password, password.count > 0 {
       let sb = UIStoryboard(name: "Main", bundle: nil)
       let pwdVC = sb.instantiateViewController(withIdentifier: "PasswordVC") as! PwdViewController
       parent.present(pwdVC, animated: true, completion: completion)
