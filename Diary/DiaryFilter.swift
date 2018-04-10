@@ -93,6 +93,8 @@ class DiaryFilter {
     }
   }
   
+  /// 初期化
+  /// 当日、最上位日付を設定する
   init() {
     let cal = Calendar.current
     today = cal.startOfDay(for: Date())

@@ -14,14 +14,17 @@ class PwdManager {
   /// 唯一のインスタンス
   static var shared = PwdManager()
   
+  /// パスワード
   var password: String? {
     didSet {
       UserDefaults.standard.setValue(password, forKey: "pwd")
     }
   }
   
+  /// 連続して失敗した回数
   var failureCount = 0
   
+  /// 最後に失敗した日時
   var lastFailureTime: Date?
   
   /// 初期化
@@ -31,6 +34,7 @@ class PwdManager {
     lastFailureTime = UserDefaults.standard.object(forKey: "pwdLastFailureTime") as? Date
   }
   
+  /// パスワードが間違っていた場合の処理を行う
   func fail() {
     failureCount += 1
     lastFailureTime = Date()
@@ -38,6 +42,7 @@ class PwdManager {
     UserDefaults.standard.setValue(lastFailureTime, forKey: "pwdLastFailureTime")
   }
   
+  /// パスワードが正しかった場合の処理を行う
   func succeed() {
     failureCount = 0
     lastFailureTime = nil
@@ -45,6 +50,10 @@ class PwdManager {
     UserDefaults.standard.setValue(lastFailureTime, forKey: "pwdLastFailureTime")
   }
   
+  /// パスワード入力画面を表示する
+  ///
+  /// - parameter parent: 親のビューコントローラ
+  /// - parameter completion: パスワード入力終了後の処理
   func showDialog(_ parent: UIViewController, completion: (()->Void)?) {
     if let password = password, password.count > 0 {
       let sb = UIStoryboard(name: "Main", bundle: nil)

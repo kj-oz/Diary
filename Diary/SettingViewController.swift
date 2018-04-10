@@ -46,8 +46,10 @@ class SettingViewController: UITableViewController {
   /// 戻るボタン押下時の処理
   @IBAction func backButtonTapped(_ sender: Any) {
     if dirty {
-      confirm(viewController: self, message: "パスワードは変更されていませんが、画面を閉じてよろしいですか？") {
-        self.performSegue(withIdentifier: "HideSettings", sender: self)
+      confirm(viewController: self, message: "パスワードは変更されていませんが、画面を閉じてよろしいですか？") { isOK in
+        if isOK {
+          self.performSegue(withIdentifier: "HideSettings", sender: self)
+        }
       }
     } else {
       performSegue(withIdentifier: "HideSettings", sender: self)

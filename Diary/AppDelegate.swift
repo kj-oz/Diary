@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
+/// メッセージ上部に表示されるアプリケーション名
 let appTitle = "百年日記"
 
 /// OKボタン一つの確認画面を表示する
@@ -41,14 +42,17 @@ func alert(viewController: UIViewController, message: String, handler: (()->Void
 ///
 /// - parameter viewConroller 表示中のビューコントローラ
 /// - parameter message メッセージ文字列
-/// - parameter handler OKボタンの押下後に実行されるハンドラ
-func confirm(viewController: UIViewController, message: String, handler: (()->Void)? = nil) {
+/// - parameter handler いずれかのボタンの押下後に実行されるハンドラ
+/// 引数は、OKだったかどうか
+func confirm(viewController: UIViewController, message: String, handler: ((Bool)->Void)? = nil) {
   let alert = UIAlertController(title:appTitle, message: message, preferredStyle: UIAlertControllerStyle.alert)
   let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { _ in
-    handler?()
+    handler?(true)
   }
   alert.addAction(ok)
-  let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: nil)
+  let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel) { _ in
+    handler?(false)
+  }
   alert.addAction(cancel)
 
   alert.popoverPresentationController?.sourceView = viewController.view

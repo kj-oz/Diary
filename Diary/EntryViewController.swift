@@ -46,12 +46,7 @@ class EntryViewController: UICollectionViewController {
           initializeData()
         }
       } catch {
-        let alert = UIAlertController(title:"百年日記", message: "編集内容の保存に失敗しました", preferredStyle: UIAlertControllerStyle.alert)
-        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-        alert.addAction(ok)
-        alert.popoverPresentationController?.sourceView = view
-        alert.popoverPresentationController?.sourceRect = view.frame
-        self.present(alert, animated: true, completion: nil)
+        alert(viewController: self, message: "編集内容の保存に失敗しました")
       }
     }
     isEditable = !isEditable
