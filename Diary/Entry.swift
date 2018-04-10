@@ -106,7 +106,8 @@ class Entry {
       target.modified = Date()
       target.deleted = isDeleted
       if data == nil {
-        realm.add(target)
+        // 編集している間に同期でレコードが追加されている可能性がある
+        realm.add(target, update: true)
         data = target
       }
     }
