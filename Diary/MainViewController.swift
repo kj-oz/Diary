@@ -73,8 +73,9 @@ class MainViewController: UIViewController {
     // dm.insertData()
     
     // 各種設定値の読み込み
-    let filterString = UserDefaults.standard.string(forKey: "filter") ?? "月日"
-    dm.filterType = FilterType(rawValue: filterString)!
+    let filterString = UserDefaults.standard.string(forKey: "filter") ?? "日々"
+    // FilterType変更時などに起動できなくなるのを止める
+    dm.filterType = FilterType(rawValue: filterString) ?? FilterType.日々
     dm.searchString = UserDefaults.standard.string(forKey: "search") ?? ""
 
     update()

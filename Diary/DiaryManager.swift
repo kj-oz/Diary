@@ -168,7 +168,11 @@ class DiaryManager {
   /// クラウドとの同期処理を開始する
   func sync() {
     if hasConnection {
-      syncHandler.startSync()
+      syncHandler.startSync() {
+        DispatchQueue.main.async {
+          self.listEntries()
+        }
+      }
     }
   }
   

@@ -56,6 +56,9 @@ class SyncHandler {
   /// 記事テーブルの同期処理
   private var entrySync: TableSyncHandler<DBEntry>?
   
+  /// 同期終了時の処理
+  private var completionHandler: (() -> ())?
+  
   /// クラウドのデータ保存域
   var container: CKContainer
   
@@ -69,12 +72,13 @@ class SyncHandler {
   }
   
   /// 同期を開始する
-  func startSync() {
+  func startSync(completionHandler: (() -> ())? = nil) {
     if photoSync != nil || entrySync != nil {
       return
     }
     
     slog("Start synchronizing")
+    self.completionHandler = completionHandler
     photoSync = TableSyncHandler(context: context)
     entrySync = TableSyncHandler(context: context)
 
@@ -97,6 +101,8 @@ class SyncHandler {
     if photoSync!.state == .endUploading && entrySync!.state == .endUploading {
       context.lastSync = Date()
       UserDefaults.standard.setValue(context.lastSync, forKey: "lastSync")
+      completionHandler?()
+      completionHandler = nil
     } else if photoSync!.state == .startUploading || entrySync!.state == .startUploading {
       return
     }
