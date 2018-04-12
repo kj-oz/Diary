@@ -72,8 +72,8 @@ class SyncronizableObject: Object {
         realm.beginWrite()
         if object.deleted {
           // クラウド側が削除されていたら物理削除
-          realm.delete(object)
-          object.deleteFromCloud(record: record)
+          existingObject.deleteFromCloud(record: record)
+          realm.delete(existingObject)
           slog("\(self.recordType) \(primaryKeyValue) deleted")
         } else {
           // 削除以外は更新

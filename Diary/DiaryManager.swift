@@ -157,10 +157,13 @@ class DiaryManager {
   func checkCloudConnection(_ completionHandler:
       @escaping (_ status: CKAccountStatus, _ error: Error?) -> ()) {
     syncHandler.container.accountStatus(completionHandler: { (status, error) in
-      if error != nil || status == .noAccount {
+      if !self.hasConnection {
+        // completionHandlerの中でErrorが発生すると、何故かここに
+        // 2度到達（且つ2度目がエラー）するため、2度めは無視する
+        if error == nil && status != .noAccount {
+          self.hasConnection = true
+        }
         completionHandler(status, error)
-      } else {
-        self.hasConnection = true
       }
     })
   }

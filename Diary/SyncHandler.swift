@@ -19,9 +19,6 @@ struct SyncContext {
   
   /// クラウド側のデータベース
   let database: CKDatabase
-  
-  /// ローカルのデータベース
-  let realm: Realm
 }
 
 /// 同期中の状態
@@ -66,9 +63,8 @@ class SyncHandler {
   init() {
     container = CKContainer(identifier: "iCloud.kj.okzk.Diary")
     let database = container.privateCloudDatabase
-    let realm = try! Realm()
     let lastSync = (UserDefaults.standard.object(forKey: "lastSync") as? Date) ?? Date.distantPast
-    context = SyncContext(lastSync: lastSync, database: database, realm: realm)
+    context = SyncContext(lastSync: lastSync, database: database)
   }
   
   /// 同期を開始する
@@ -136,13 +132,17 @@ class TableSyncHandler<T: SyncronizableObject> {
   init(context: SyncContext) {
     self.context = context
     
-    let localData = context.realm.objects(T.self).filter("modified > %@", context.lastSync)
-    for data in localData {
-      if data.deleted {
-        localDeletes.append(data.recordID)
-      } else {
-        localUpdates.append(data.record)
-      }
+    let realm = try! Realm()
+    let updated = realm.objects(T.self).filter("modified > %@", context.lastSync)
+    for data in updated {
+      localUpdates.append(data.record)
+    }
+    
+    let monthAgo = Date().addingTimeInterval(-30 * 24 * 60 * 60)
+    let deleted = realm.objects(T.self).filter(
+          "modified < %@ AND deleted == true", monthAgo)
+    for data in deleted {
+      localDeletes.append(data.recordID)
     }
     state = .notStarted
   }
@@ -214,12 +214,27 @@ class TableSyncHandler<T: SyncronizableObject> {
         })
         return
       }
+      
+      try? self?.removeFromLocal()
       self?.state = .endUploading
       completionHandler()
       slog("End uploading " + T.recordType)
     }
     
     context.database.add(operation)
+  }
+  
+  /// クラウド側へ削除を通知したレコードを実際に削除する
+  /// （写真のファイル自体は、論理削除時に削除済み）
+  private func removeFromLocal() throws {
+    let realm = try Realm()
+    try realm.write {
+      for recordId in localDeletes {
+        if let obj = realm.object(ofType: T.self, forPrimaryKey: recordId.recordName) {
+          realm.delete(obj)
+        }
+      }
+    }
   }
   
   /// オペレーションのエラーに対処する

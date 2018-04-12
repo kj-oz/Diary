@@ -57,7 +57,8 @@ class MainViewController: UIViewController {
     searchLabel.addGestureRecognizer(tapGR)
     
     dm = DiaryManager.shared
-    
+    dm.delegate = self
+
     // CloudKit にログインしているかチェック
     dm.checkCloudConnection({ status, error in
       if error != nil || status == .noAccount {
@@ -69,7 +70,6 @@ class MainViewController: UIViewController {
         self.dm.sync()
       }
     })
-    dm.delegate = self
     // dm.insertData()
     
     // 各種設定値の読み込み
