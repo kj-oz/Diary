@@ -104,8 +104,6 @@ class EntryViewController: UICollectionViewController {
   /// 1行あたりの写真の表示数
   fileprivate let itemsPerRow = 1
   
-//  var requiresPwd = false
-
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()

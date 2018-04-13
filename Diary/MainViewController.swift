@@ -38,9 +38,8 @@ class MainViewController: UIViewController {
   /// iCloudへのログインを促すダイアログを表示するかどうか
   var showPrompt = false
   
+  /// 起動後の初回のView表示時か（初回のみパスワード入力画面を表示）
   var firstTime = true
-  
-  var requiresPwd = false
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
