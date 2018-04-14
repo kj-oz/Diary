@@ -118,7 +118,7 @@ class Entry {
   /// - parameter addedImage: 追加されたイメージのマップ
   /// - parameter deletedPhotos: 削除された写真のIDの配列
   /// - throws: DBへの保存に失敗した場合、新規イメージの保存に失敗した場合
-  func updatePhotos(addedImages: [String:UIImage], deletedPhotos: [String]) throws {
+  public func updatePhotos(addedImages: [String:UIImage], deletedPhotos: [String]) throws {
     let photoDir = DiaryManager.docDir.appendingFormat("/%@", date)
     let realm = try Realm()
     let fm = FileManager.default

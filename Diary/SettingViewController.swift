@@ -18,10 +18,10 @@ class SettingViewController: UITableViewController {
   @IBOutlet weak var confirmField: UITextField!
   
   /// パスワード・マネジャ
-  let pm = PwdManager.shared
+  private let pm = PwdManager.shared
   
   /// 何らかの入力を行って未確定の状態かどうか
-  var dirty = false
+  private var dirty = false
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {

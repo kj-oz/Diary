@@ -45,7 +45,7 @@ enum SyncState {
 /// ローカルとクラウドの同期を処理するクラス
 class SyncHandler {
   /// 同期の環境
-  var context: SyncContext
+  private var context: SyncContext
   
   /// 写真テーブルの同期処理
   private var photoSync: TableSyncHandler<DBPhoto>?
@@ -83,7 +83,7 @@ class SyncHandler {
   }
   
   /// ダウンロード処理終了時に呼び出される処理
-  func downloadCompleted() {
+  private func downloadCompleted() {
     if photoSync!.state == .endDownloading && entrySync!.state == .endDownloading {
       photoSync!.uploadRecords(completionHandler: uploadCompleted)
       entrySync!.uploadRecords(completionHandler: uploadCompleted)
@@ -93,7 +93,7 @@ class SyncHandler {
   }
   
   /// アップロード処理終了時に呼び出される処理
-  func uploadCompleted() {
+  private func uploadCompleted() {
     if photoSync!.state == .endUploading && entrySync!.state == .endUploading {
       context.lastSync = Date()
       UserDefaults.standard.setValue(context.lastSync, forKey: "lastSync")
@@ -106,7 +106,7 @@ class SyncHandler {
   }
   
   /// 同期処理を初期化する
-  func initializeSync() {
+  private func initializeSync() {
     photoSync = nil
     entrySync = nil
   }
@@ -115,16 +115,16 @@ class SyncHandler {
 /// テーブル毎の同期処理を行うクラス
 class TableSyncHandler<T: SyncronizableObject> {
   /// 前回同期以降にローカルで追加・更新されたデータ
-  var localUpdates: [CKRecord] = []
+  private var localUpdates: [CKRecord] = []
   
   /// 前回同期以降にローカルで削除されたデータのID
-  var localDeletes: [CKRecordID] = []
+  private var localDeletes: [CKRecordID] = []
   
   /// 同期の状態
-  var state: SyncState
+  fileprivate var state: SyncState
   
   /// 同期の環境
-  let context: SyncContext
+  private let context: SyncContext
   
   /// コンストラクタ、与えられた環境の同期処理オブジェクトを得る
   ///
@@ -151,7 +151,7 @@ class TableSyncHandler<T: SyncronizableObject> {
   ///
   /// - parameter completionHandler: データ取得終了時の処理
   /// - parameter inputCursor: データが多い場合の一連のクエリ用のカーソル
-  func downloadRecords(completionHandler: @escaping () -> (), inputCursor: CKQueryCursor? = nil) {
+  fileprivate func downloadRecords(completionHandler: @escaping () -> (), inputCursor: CKQueryCursor? = nil) {
     let operation: CKQueryOperation
     state = .startDownloading
     slog("Start downloading " + T.recordType)
@@ -201,7 +201,7 @@ class TableSyncHandler<T: SyncronizableObject> {
   /// クラウドへ前回同期以降にローカルで更新されたデータを送る
   ///
   /// - parameter completionHandler: データ送付終了時の処理
-  func uploadRecords(completionHandler: @escaping () -> ()) {
+  fileprivate func uploadRecords(completionHandler: @escaping () -> ()) {
     let operation = CKModifyRecordsOperation(recordsToSave: localUpdates, recordIDsToDelete: localDeletes)
     operation.savePolicy = .changedKeys
     state = .startUploading

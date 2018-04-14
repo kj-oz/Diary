@@ -53,7 +53,7 @@ class EntryViewController: UICollectionViewController {
   }
   
   /// 編集状態かどうか
-  var isEditable = false {
+  private var isEditable = false {
     didSet {
       if isEditable {
         leftButton.title = "キャンセル"
@@ -70,39 +70,39 @@ class EntryViewController: UICollectionViewController {
   var updated = false
   
   /// 新規の記事か既存の編集か
-  var isNew = false
+  private var isNew = false
   
   /// 写真セクションのヘッダー（＋ーのボタンを持つ）
-  weak var photoHeader: EntryPhotoHeader?
+  private weak var photoHeader: EntryPhotoHeader?
   
   /// 対象の記事の元データ
   var entry: Entry!
   
   /// 対象の記事に対する写真ディレクトリ
-  var photoDir: String!
+  private var photoDir: String!
   
   /// 本文の編集内容を保持する変数
-  var text = ""
+  private var text = ""
 
   /// 写真の編集内容を保持する配列
   /// 写真は配列の順番通りに並ぶ、すでに登録済みの写真はファイル名（拡張子なし）のみ、
   /// 新規追加分は「add-ｎ」（nはaddedImagesの中のindex）
-  var photos: [String] = []
+  private var photos: [String] = []
   
   /// 追加された写真のID（3桁の連番）とイメージの辞書
-  var addedImages: [String:UIImage] = [:]
+  private var addedImages: [String:UIImage] = [:]
   
   /// 削除された写真のID（3桁の連番）の配列
-  var deletedPhotos: [String] = []
+  private var deletedPhotos: [String] = []
   
   /// 写真のIDの最大値
-  var maxPhotoNo = 0
+  private var maxPhotoNo = 0
   
   /// インセット
-  fileprivate let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
+  private let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
   
   /// 1行あたりの写真の表示数
-  fileprivate let itemsPerRow = 1
+  private let itemsPerRow = 1
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
@@ -126,7 +126,7 @@ class EntryViewController: UICollectionViewController {
   }
   
   /// アプリがフォアグラウンド化された際のイベントの待ち受けを登録する
-  fileprivate func setupEnterForegroundEvent() {
+  private func setupEnterForegroundEvent() {
     let nc = NotificationCenter.default;
     nc.addObserver(self, selector: #selector(EntryViewController.applicationWillEnterForeground),
                    name: NSNotification.Name(rawValue: "applicationWillEnterForeground"),

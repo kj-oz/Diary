@@ -550,7 +550,7 @@
                     <navigationItem key="navigationItem" title="百年日記の使い方" id="TTi-KE-B8t">
                         <barButtonItem key="leftBarButtonItem" title="閉じる" id="50j-HP-s0r">
                             <connections>
-                                <segue destination="DOy-pn-Cz6" kind="unwind" unwindAction="backToMainView:" id="T9k-hQ-PLn"/>
+                                <segue destination="DOy-pn-Cz6" kind="unwind" identifier="HideHelp" unwindAction="backToMainView:" id="T9k-hQ-PLn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

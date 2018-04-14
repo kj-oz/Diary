@@ -33,7 +33,7 @@ protocol DiaryManagerDelegate {
 /// 20年に一度程度ある第54週の12/31は翌年の第1週として扱う
 class DiaryManager {
   /// 祝日判定ライブラリ
-  static let ccl = CalculateCalendarLogic()
+  private static let ccl = CalculateCalendarLogic()
   
   /// サンドボックスのDocumentsディレクトリのフルパス
   static let docDir: String = {
@@ -51,7 +51,7 @@ class DiaryManager {
   }()
   
   /// Dateから日本時間の曜日省略形を得るフォーマッタ
-  static private let wdFormatter: DateFormatter = {
+  private static let wdFormatter: DateFormatter = {
     let dateFormatter = DateFormatter();
     dateFormatter.dateFormat = "E"
     dateFormatter.locale = Locale.current
@@ -180,7 +180,7 @@ class DiaryManager {
   }
   
   /// 各種の条件が変化した際に、条件に合致する日記セットを取得し直す
-  func listEntries() {
+  private func listEntries() {
     print("▷ listEntries start")
     print("firstDate: \(filter.originDate)")
     print("filter: \(filter.type.rawValue)")
@@ -228,7 +228,7 @@ class DiaryManager {
   /// DBから指定の条件に合致した記事を得る
   ///
   /// - returns: 条件に合致する記事
-  func queryDatabase() -> Results<DBEntry> {
+  private func queryDatabase() -> Results<DBEntry> {
     let realm = try! Realm()
     let results = realm.objects(DBEntry.self).filter(
       "deleted == false").sorted(byKeyPath: "date", ascending: false)
@@ -239,7 +239,7 @@ class DiaryManager {
   ///
   /// - parameter entries: filterから得られた合致日付
   /// - parameter data: DBから得られたレコード
-  func mergeEntries(entries: [Entry], data: Results<DBEntry>) {
+  private func mergeEntries(entries: [Entry], data: Results<DBEntry>) {
     var eIndex = 0
     var dIndex = 0
     let eMax = entries.count
@@ -266,7 +266,7 @@ class DiaryManager {
   ///
   /// - parameter data: DBから得られたレコード
   /// - returns: 日記のエントリー
-  func wrapDatabases(data: Results<DBEntry>) -> [Entry] {
+  private func wrapDatabases(data: Results<DBEntry>) -> [Entry] {
     return data.map() {
       return Entry(data: $0)
     }

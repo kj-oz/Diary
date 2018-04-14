@@ -21,10 +21,10 @@ class PwdViewController: UIViewController {
   @IBOutlet weak var messageLabel: UILabel!
   
   /// パスワードを管理するオブジェクト
-  var pm: PwdManager!
+  private var pm: PwdManager!
   
   /// 1時間あたりの秒数（この値を変更することで、デバッグ時、すぐに確認できる）
-  let secPerHour = 60 * 60
+  private let secPerHour = 60 * 60
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
@@ -65,7 +65,7 @@ class PwdViewController: UIViewController {
   /// releaseHoursが指定されている場合、メッセージには hours 時間ロックする旨表示するが、実際には
   /// releaseHours後にパスワードを解除しアプリを停止する（次に立ち上げた時にはパスワード無しで起動できる）
   /// パスワード忘れへの対策
-  func lock(hours: Int, releaseHours: Int = 0) {
+  private func lock(hours: Int, releaseHours: Int = 0) {
     let unlockTime = Date(timeInterval: TimeInterval(hours * secPerHour),
                           since: pm.lastFailureTime!)
     let now = Date()

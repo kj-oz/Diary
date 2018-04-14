@@ -27,19 +27,19 @@ class MainViewController: UIViewController {
   @IBOutlet weak var dateView: UIView!
   
   /// 日記マネージャ
-  var dm: DiaryManager!
+  private var dm: DiaryManager!
   
   /// パスワードマネージャ
-  var pm: PwdManager!
+  private var pm: PwdManager!
   
   /// 検索された全記事
-  var entries: [Entry] = []
+  private var entries: [Entry] = []
   
   /// iCloudへのログインを促すダイアログを表示するかどうか
-  var showPrompt = false
+  private var showPrompt = false
   
   /// 起動後の初回のView表示時か（初回のみパスワード入力画面を表示）
-  var firstTime = true
+  private var firstTime = true
   
   // ビューのロード時に呼び出される
   override func viewDidLoad() {

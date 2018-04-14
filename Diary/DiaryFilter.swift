@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 /// 日記のフィルタ種別
-public enum FilterType : String {
+enum FilterType : String {
   case 月日     // 各年 X月Y日
   case 週      // 各年 第X週Y曜日
   case 日      // 各月 Y日
@@ -28,7 +28,7 @@ public enum FilterType : String {
 /// 日記の記事に対するフィルタ
 class DiaryFilter {
   /// 各月の最大日数（1月は[1]に保持）
-  static let maxDaysOfMonth = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  private static let maxDaysOfMonth = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
   /// 取り扱う最古の日
   static let earliestDate = DiaryManager.dateFormatter.date(from: "19500101")!
@@ -37,7 +37,7 @@ class DiaryFilter {
   var originDate: Date
   
   /// 今日
-  var today: Date
+  private var today: Date
   
   /// 種別
   var type: FilterType = .日々
@@ -49,7 +49,7 @@ class DiaryFilter {
   var needDb = false
   
   /// 記事に含まれるべき検索ワード
-  var keywords: [String] = []
+  private var keywords: [String] = []
   
   /// 最大の記事数（日付リストアップ時の制限）
   var maxEntry = 366
