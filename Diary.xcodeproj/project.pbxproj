@@ -31,14 +31,8 @@
 		31CAC5D91FC5C20000EC7910 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5D81FC5C20000EC7910 /* Entry.swift */; };
 		31CAC5DB1FC85E6600EC7910 /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */; };
 		31D36A9C20788FEB007F159F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D36A9B20788FEB007F159F /* SettingViewController.swift */; };
-		31D36AAB207890FD007F159F /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D36A9E207890FD007F159F /* index.html */; };
-		31D36AB0207890FE007F159F /* shot_v_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AA4207890FD007F159F /* shot_v_line.png */; };
-		31D36AB1207890FE007F159F /* shot_h_desc.png in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AA5207890FD007F159F /* shot_h_desc.png */; };
-		31D36AB2207890FE007F159F /* operation.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AA6207890FD007F159F /* operation.html */; };
-		31D36AB4207890FE007F159F /* view.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AA8207890FD007F159F /* view.html */; };
-		31D36AB5207890FE007F159F /* help.css in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AA9207890FD007F159F /* help.css */; };
-		31D36AB6207890FE007F159F /* introduction.html in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AAA207890FD007F159F /* introduction.html */; };
 		31D36AB820789135007F159F /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D36AB720789135007F159F /* HelpViewController.swift */; };
+		31D36AC52081E406007F159F /* www in Resources */ = {isa = PBXBuildFile; fileRef = 31D36AC42081E406007F159F /* www */; };
 		31FB5879202C89FB007ED042 /* DiaryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB5878202C89FB007ED042 /* DiaryFilter.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,14 +77,8 @@
 		31CAC5D81FC5C20000EC7910 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		31CAC5DA1FC85E6600EC7910 /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 		31D36A9B20788FEB007F159F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		31D36A9E207890FD007F159F /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		31D36AA4207890FD007F159F /* shot_v_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shot_v_line.png; sourceTree = "<group>"; };
-		31D36AA5207890FD007F159F /* shot_h_desc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shot_h_desc.png; sourceTree = "<group>"; };
-		31D36AA6207890FD007F159F /* operation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = operation.html; sourceTree = "<group>"; };
-		31D36AA8207890FD007F159F /* view.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
-		31D36AA9207890FD007F159F /* help.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = help.css; sourceTree = "<group>"; };
-		31D36AAA207890FD007F159F /* introduction.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = introduction.html; sourceTree = "<group>"; };
 		31D36AB720789135007F159F /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		31D36AC42081E406007F159F /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		31FB5878202C89FB007ED042 /* DiaryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,7 +115,7 @@
 		31CAC5B21FC31A5300EC7910 = {
 			isa = PBXGroup;
 			children = (
-				31D36A9D207890FD007F159F /* www */,
+				31D36AC42081E406007F159F /* www */,
 				3103D0862065EE8E001DCAC9 /* Library */,
 				31CAC5D01FC31C0B00EC7910 /* Realm.framework */,
 				31CAC5D11FC31C0B00EC7910 /* RealmSwift.framework */,
@@ -172,28 +160,6 @@
 				31291B85206D2E6500662EA7 /* PwdManager.swift */,
 			);
 			path = Diary;
-			sourceTree = "<group>";
-		};
-		31D36A9D207890FD007F159F /* www */ = {
-			isa = PBXGroup;
-			children = (
-				31D36A9E207890FD007F159F /* index.html */,
-				31D36AA0207890FD007F159F /* images */,
-				31D36AA6207890FD007F159F /* operation.html */,
-				31D36AA8207890FD007F159F /* view.html */,
-				31D36AA9207890FD007F159F /* help.css */,
-				31D36AAA207890FD007F159F /* introduction.html */,
-			);
-			path = www;
-			sourceTree = "<group>";
-		};
-		31D36AA0207890FD007F159F /* images */ = {
-			isa = PBXGroup;
-			children = (
-				31D36AA4207890FD007F159F /* shot_v_line.png */,
-				31D36AA5207890FD007F159F /* shot_h_desc.png */,
-			);
-			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,14 +231,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31D36AB0207890FE007F159F /* shot_v_line.png in Resources */,
+				31D36AC52081E406007F159F /* www in Resources */,
 				31CAC5C91FC31A5400EC7910 /* LaunchScreen.storyboard in Resources */,
-				31D36AB2207890FE007F159F /* operation.html in Resources */,
-				31D36AB1207890FE007F159F /* shot_h_desc.png in Resources */,
-				31D36AB6207890FE007F159F /* introduction.html in Resources */,
-				31D36AB4207890FE007F159F /* view.html in Resources */,
-				31D36AB5207890FE007F159F /* help.css in Resources */,
-				31D36AAB207890FD007F159F /* index.html in Resources */,
 				31CAC5C61FC31A5400EC7910 /* Assets.xcassets in Resources */,
 				31CAC5C41FC31A5400EC7910 /* Main.storyboard in Resources */,
 			);

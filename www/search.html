@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>百年日記・ヘルプ</title>
+  <link rel="stylesheet" type="text/css" href="help.css"></link>
+</head>
+
+<body>
+  <div class="page-title">
+    <h1>検索</h1>
+  </div>
+  <div class="contents">
+    <p>表示方法で「検索」を選ぶと、検索文字列の入力欄が表示されますので、検索キーワード入力します。
+      空白で区切って複数のキーワードを入力することも可能です。
+      最初のキーワードに以下のような数字または「@」＋数字を入力すると検索対象の日付を絞り込むことが可能です。</p>
+ 	  <h3>8桁の数字（YYYYMMDD）</h3>
+    <p>年月日として解釈され、その年月日の前後10日が検索対象になります。</p>
+    <h3>6桁の数字（YYYYMM）</h3>
+    <p>年月として解釈され、その年月の全ての日が検索対象になります。</p>
+    <h3>4桁の数字（YYYY または MMDD）</h3>
+    <p>1231より大きい場合は、年として解釈されその年の全日付が検索対象になります。
+    　1231より小さい場合は月日として解釈され過去の年のその月日が検索対象となります。</p>
+    <h3>2桁以下の数字（DD）</h3>
+    <p>日として解釈され過去の月のその日が検索対象となります。</p>
+    <h3>「@」＋2桁以上の数字（NNW）</h3>
+    <p>週番号2桁＋曜日として解釈され過去の年のその週番号・曜日が検索対象となります。
+      曜日は日曜は1、月曜は2、土曜は7で指定します。</p>
+    <h3>「@」＋1桁の数字（W）</h3>
+    <p>曜日として解釈され過去の週のその曜日が検索対象となります。
+      曜日は日曜は1、月曜は2、土曜は7で指定します。</p>
+  </div>
+  <div class="pager">
+    <div class="pager-button" id="pager-prev">
+      <h2><a href="filter.html">＜</a></h2>
+    </div>
+    <div class="pager-button" id="pager-next">
+      <h2><a href="setting.html">＞</a></h2>
+    </div>
+    <div class="pager-button" id="pager-index">
+      <h2><a href="index.html">目次</a></h2>
+    </div>
+  </div>
+</body>
+</html>

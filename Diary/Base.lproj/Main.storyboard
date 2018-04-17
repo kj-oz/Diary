@@ -533,17 +533,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3n-w9-hbH">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            <webView contentMode="scaleToFill" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3n-w9-hbH">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <dataDetectorType key="dataDetectorTypes"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="S3n-w9-hbH" firstAttribute="trailing" secondItem="fTC-gf-Ue8" secondAttribute="trailing" id="ICB-OW-wmV"/>
-                            <constraint firstItem="S3n-w9-hbH" firstAttribute="top" secondItem="fTC-gf-Ue8" secondAttribute="top" id="MwJ-1l-Sh8"/>
-                            <constraint firstItem="S3n-w9-hbH" firstAttribute="leading" secondItem="fTC-gf-Ue8" secondAttribute="leading" id="UsG-hf-4Jg"/>
-                            <constraint firstItem="S3n-w9-hbH" firstAttribute="bottom" secondItem="fTC-gf-Ue8" secondAttribute="bottom" id="orT-xR-EtA"/>
+                            <constraint firstItem="S3n-w9-hbH" firstAttribute="top" secondItem="93Z-KS-Zzf" secondAttribute="top" id="KGB-3f-DmG"/>
+                            <constraint firstAttribute="trailing" secondItem="S3n-w9-hbH" secondAttribute="trailing" id="NnS-Kj-jpZ"/>
+                            <constraint firstItem="S3n-w9-hbH" firstAttribute="leading" secondItem="93Z-KS-Zzf" secondAttribute="leading" id="kJw-Xw-56g"/>
+                            <constraint firstAttribute="bottom" secondItem="S3n-w9-hbH" secondAttribute="bottom" id="sH3-cH-Njj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fTC-gf-Ue8"/>
                     </view>
@@ -554,6 +555,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="S3n-w9-hbH" id="pjt-QW-RZp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXg-F4-Q17" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DOy-pn-Cz6" userLabel="Exit" sceneMemberID="exit"/>

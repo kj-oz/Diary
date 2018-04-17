@@ -65,12 +65,18 @@ extension SettingViewController : UITextFieldDelegate {
     if textField === pwdField {
       print("パスワード欄：\(pwdField.text ?? "")")
       confirmField.text = ""
+      if let oldPassword = pm.password, oldPassword.count > 0 {
+        alert(viewController: self, message: "パスワードが解除されました。")
+        pm.password = nil
+        dirty = false
+      }
     } else {
       print("確認欄：\(confirmField.text ?? "")")
       if confirmField.text != pwdField.text {
         alert(viewController: self, message: "パスワードが一致しません。")
       } else {
-        alert(viewController: self, message: "パスワードが変更されました。")
+        alert(viewController: self, message: "パスワードが変更されました。\n\n"
+          + "パスワード忘れの際の対処方法が\nヘルプ画面に記載されています。\nぜひ一度ご確認下さい。")
         pm.password = pwdField.text
         dirty = false
       }
