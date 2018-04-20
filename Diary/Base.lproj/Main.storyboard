@@ -130,7 +130,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日記の本文日記の本文日記の本文日記の本文日記の本文日記の本文日記の本文日記の本文日記の本文日記の本文" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAd-ap-kkb">
-                                                    <rect key="frame" x="66" y="0.0" width="241" height="84"/>
+                                                    <rect key="frame" x="66" y="0.0" width="236" height="84"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -140,7 +140,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="SAX-mW-GEg" secondAttribute="trailing" constant="3" id="4Xy-iG-A8I"/>
                                                 <constraint firstAttribute="bottom" secondItem="yAd-ap-kkb" secondAttribute="bottom" constant="-4.5" id="AcO-l8-dQF"/>
                                                 <constraint firstItem="yAd-ap-kkb" firstAttribute="leading" secondItem="PsG-uc-aoR" secondAttribute="trailing" id="DwB-3W-fQW"/>
-                                                <constraint firstItem="SAX-mW-GEg" firstAttribute="leading" secondItem="yAd-ap-kkb" secondAttribute="trailing" constant="-1" id="F8c-8j-T7h"/>
+                                                <constraint firstItem="SAX-mW-GEg" firstAttribute="leading" secondItem="yAd-ap-kkb" secondAttribute="trailing" constant="4" id="F8c-8j-T7h"/>
                                                 <constraint firstItem="yAd-ap-kkb" firstAttribute="top" secondItem="fZZ-sr-Gs8" secondAttribute="top" id="HYl-zk-Wkb"/>
                                                 <constraint firstAttribute="bottom" secondItem="SAX-mW-GEg" secondAttribute="bottom" constant="3" id="HtJ-EE-GgT"/>
                                                 <constraint firstItem="PsG-uc-aoR" firstAttribute="leading" secondItem="fZZ-sr-Gs8" secondAttribute="leading" id="g5Z-5c-sne"/>
@@ -449,10 +449,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
-                            <tableViewSection id="YX1-Xs-ebw">
+                            <tableViewSection headerTitle="パスワード設定" id="YX1-Xs-ebw">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="an7-AQ-nir">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="an7-AQ-nir" id="vMp-oM-2yg">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -476,7 +476,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="fTc-xS-Zax">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fTc-xS-Zax" id="Mdx-3O-bhr">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
