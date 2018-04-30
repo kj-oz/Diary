@@ -33,11 +33,15 @@ class EntryViewController: UICollectionViewController {
   /// 右ボタン（編集/完了）タップ時
   @IBAction func rightButtonTapped(_ sender: Any) {
     if isEditable {
-      let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0))
-        as! EntryTextCell
+      var text = ""
+      // 何故かtetxCell が nilのケースがある
+      if let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0))
+        as? EntryTextCell {
+        text = textCell.textView.text
+      }
       do {
         try entry.updatePhotos(addedImages: addedImages, deletedPhotos: deletedPhotos)
-        try entry.updateData(text: textCell.textView.text, photos: photos.joined(separator: ","))
+        try entry.updateData(text: text, photos: photos.joined(separator: ","))
         DiaryManager.shared.sync()
         updated = true
         if isNew {
@@ -365,8 +369,7 @@ extension EntryViewController: UICollectionViewDelegateFlowLayout {
 extension EntryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   // ライブラリーから写真を選択した後呼び出される
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    let image = (info[UIImagePickerControllerEditedImage] ??
-      info[UIImagePickerControllerOriginalImage]) as! UIImage
+    let image = info[UIImagePickerControllerOriginalImage] as! UIImage
     maxPhotoNo += 1
     let id = photoIdOf(maxPhotoNo)
     addedImages[id] = image
