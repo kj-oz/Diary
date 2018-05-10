@@ -69,7 +69,6 @@ class MainViewController: UIViewController {
         self.dm.sync()
       }
     })
-    // dm.insertData()
     
     // 各種設定値の読み込み
     let filterString = UserDefaults.standard.string(forKey: "filter") ?? "日々"

@@ -20,6 +20,47 @@ class EntryViewController: UICollectionViewController {
   /// ナビゲーションバーの右ボタン
   @IBOutlet weak var rightButton: UIBarButtonItem!
   
+  /// 記事が更新されたかどうか
+  var updated = false
+  
+  /// 新規の記事か既存の編集か
+  private var isNew = false
+  
+  /// 写真セクションのヘッダー（＋ーのボタンを持つ）
+  private weak var photoHeader: EntryPhotoHeader?
+  
+  /// 対象の記事の元データ
+  var entry: Entry!
+  
+  /// 対象の記事に対する写真ディレクトリ
+  private var photoDir: String!
+  
+  /// 本文の編集内容を保持する変数
+  private var text = ""
+
+  /// 写真の編集内容を保持する配列
+  /// 写真は配列の順番通りに並ぶ、すでに登録済みの写真はファイル名（拡張子なし）のみ、
+  /// 新規追加分は「add-ｎ」（nはaddedImagesの中のindex）
+  private var photos: [String] = []
+  
+  /// 追加された写真のID（3桁の連番）とイメージの辞書
+  private var addedImages: [String:UIImage] = [:]
+  
+  /// 既存の写真のIDとイメージの辞書
+  private var existingImages: [String:UIImage] = [:]
+
+  /// 削除された写真のID（3桁の連番）の配列
+  private var deletedPhotos: [String] = []
+  
+  /// 写真のIDの最大値
+  private var maxPhotoNo = 0
+  
+  /// インセット
+  private let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
+  
+  /// 1行あたりの写真の表示数
+  private let itemsPerRow = 1
+  
   /// 左ボタン（＜/キャンセル）タップ時
   @IBAction func leftButtonTapped(_ sender: Any) {
     if isEditable && !isNew {
@@ -33,7 +74,6 @@ class EntryViewController: UICollectionViewController {
   /// 右ボタン（編集/完了）タップ時
   @IBAction func rightButtonTapped(_ sender: Any) {
     if isEditable {
-      var text = ""
       // 何故かtetxCell が nilのケースがある
       if let textCell = collectionView?.cellForItem(at: IndexPath(row: 0, section: 0))
         as? EntryTextCell {
@@ -70,44 +110,6 @@ class EntryViewController: UICollectionViewController {
     }
   }
   
-  /// 記事が更新されたかどうか
-  var updated = false
-  
-  /// 新規の記事か既存の編集か
-  private var isNew = false
-  
-  /// 写真セクションのヘッダー（＋ーのボタンを持つ）
-  private weak var photoHeader: EntryPhotoHeader?
-  
-  /// 対象の記事の元データ
-  var entry: Entry!
-  
-  /// 対象の記事に対する写真ディレクトリ
-  private var photoDir: String!
-  
-  /// 本文の編集内容を保持する変数
-  private var text = ""
-
-  /// 写真の編集内容を保持する配列
-  /// 写真は配列の順番通りに並ぶ、すでに登録済みの写真はファイル名（拡張子なし）のみ、
-  /// 新規追加分は「add-ｎ」（nはaddedImagesの中のindex）
-  private var photos: [String] = []
-  
-  /// 追加された写真のID（3桁の連番）とイメージの辞書
-  private var addedImages: [String:UIImage] = [:]
-  
-  /// 削除された写真のID（3桁の連番）の配列
-  private var deletedPhotos: [String] = []
-  
-  /// 写真のIDの最大値
-  private var maxPhotoNo = 0
-  
-  /// インセット
-  private let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
-  
-  /// 1行あたりの写真の表示数
-  private let itemsPerRow = 1
-  
   // ビューのロード時に呼び出される
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -122,11 +124,6 @@ class EntryViewController: UICollectionViewController {
     initializeData()
     isNew = (entry.data == nil)
     isEditable = isNew
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    print("▷ viewDidAppear(Entry)")
   }
   
   /// アプリがフォアグラウンド化された際のイベントの待ち受けを登録する
@@ -204,12 +201,28 @@ class EntryViewController: UICollectionViewController {
   
   /// 写真が1つでも選択されているかどうかを返す
   ///
-  /// -returns: 写真が1つでも選択されているかどうか
+  /// - returns: 写真が1つでも選択されているかどうか
   public func isPhotoSelected() -> Bool {
     if let indexPath = collectionView?.indexPathsForSelectedItems?.first, indexPath.section == 1 {
       return true
     }
     return false
+  }
+  
+  /// 写真のidに対する画像を返す
+  ///
+  /// - parameter id: 写真のid
+  /// - returns: その写真の画像
+  fileprivate func photoImageOf(_ id: String) -> UIImage? {
+    if let image = (addedImages[id] ?? existingImages[id]) {
+      return image
+    } else {
+      let image = UIImage(contentsOfFile: filePathOf(id))
+      if image != nil {
+        existingImages[id] = image!
+      }
+      return image
+    }
   }
 }
 
@@ -258,14 +271,11 @@ extension EntryViewController {
         withReuseIdentifier: "PhotoCell", for: indexPath) as! EntryPhotoCell
       
       let photo = photos[indexPath.row]
-      if let image = addedImages[photo] {
-        cell.imageView.image = image
-      } else {
-        cell.imageView.image = UIImage(contentsOfFile: filePathOf(photo))
-      }
+      cell.imageView.image = photoImageOf(photo)
       return cell
     }
   }
+  
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -275,16 +285,53 @@ extension EntryViewController: UICollectionViewDelegateFlowLayout {
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     if indexPath.section == 0 {
+      // テキストの必要高さ（4行分程度の余白を取る）
       let paddingSpace = sectionInsets.left * 2
       let width = collectionView.bounds.width - paddingSpace
       let font = UIFont.systemFont(ofSize: 16)
       let height = textHeight(s: text, font: font, width: width)
       return CGSize(width: width, height: height + font.lineHeight * 4)
     } else {
+      // 写真セルのサイズ
+      // 　画面の幅が640より大きければ、写真は2列に並べる
+      // 　セルの幅は、均等割
+      // 　セルの高さは、縦長の画像があればセル幅と同じ、その行の画像が全て横長ならセル幅に縮めた画像が収まる高さ
+      let itemsPerRow = view.frame.width > 640 ? 2 : 1
       let paddingSpace = sectionInsets.left * CGFloat(itemsPerRow + 1)
       let availableWidth = view.frame.width - paddingSpace
       let width = availableWidth / CGFloat(itemsPerRow)
-      return CGSize(width: width, height: width)
+      var height = width
+      if itemsPerRow == 1 {
+        if let image = photoImageOf(photos[indexPath.row]) {
+          let size = image.size
+          if size.width > size.height {
+            height = width * size.height / size.width
+          }
+        }
+      } else {
+        let row = indexPath.row / 2
+        if let image = photoImageOf(photos[row * 2]) {
+          let size = image.size
+          if size.width > size.height {
+            let h1 = width * size.height / size.width
+            if photos.count > row * 2 + 1, let image = photoImageOf(photos[row * 2 + 1]) {
+              let size = image.size
+              if size.width > size.height {
+                let h2 = width * size.height / size.width
+                height = max(h1, h2)
+              }
+            } else {
+                height = h1
+            }
+          }
+        } else if photos.count > row * 2 + 1, let image = photoImageOf(photos[row * 2 + 1]) {
+          let size = image.size
+          if size.width > size.height {
+            height = width * size.height / size.width
+          }
+        }
+      }
+      return CGSize(width: width, height: height)
     }
   }
   
@@ -362,6 +409,7 @@ extension EntryViewController: UICollectionViewDelegateFlowLayout {
     if let selected = collectionView.indexPathsForSelectedItems?.first, selected == sourceIndexPath {
       collectionView.selectItem(at: destinationIndexPath, animated: true, scrollPosition: .centeredVertically)
     }
+    collectionView.reloadSections([1])
   }
 }
 
@@ -380,4 +428,3 @@ extension EntryViewController: UIImagePickerControllerDelegate, UINavigationCont
     dismiss(animated: true, completion: nil)
   }
 }
-

@@ -59,7 +59,7 @@ class SettingViewController: UITableViewController {
 
 // MARK: UITextFieldDelegate
 extension SettingViewController : UITextFieldDelegate {
-  // リターンキーがタップされた
+  // リターンキーがタップされた際に呼び出される
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     dirty = true
     if textField === pwdField {

@@ -167,7 +167,7 @@ extension UIImage {
   ///
   /// - parameter maxLength: 最大ピクセル数（縦横とも）
   /// - parameter maxByte: 最大バイト数
-  /// - returns 与えられた条件をクリアしたバイト列
+  /// - returns: 与えられた条件をクリアしたバイト列
   func data(maxLength: Int, maxByte: Int) -> Data {
     print("image.size:\(size)")
     let length = max(size.width, size.height)
