@@ -46,7 +46,7 @@ class DiaryManager {
   static let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter();
     dateFormatter.dateFormat = "yyyyMMdd"
-    dateFormatter.locale = Locale.current
+    dateFormatter.locale = Locale(identifier: "ja_JP")
     return dateFormatter
   }()
   
@@ -54,7 +54,7 @@ class DiaryManager {
   private static let wdFormatter: DateFormatter = {
     let dateFormatter = DateFormatter();
     dateFormatter.dateFormat = "E"
-    dateFormatter.locale = Locale.current
+    dateFormatter.locale = Locale(identifier: "ja_JP")
     return dateFormatter
   }()
   
